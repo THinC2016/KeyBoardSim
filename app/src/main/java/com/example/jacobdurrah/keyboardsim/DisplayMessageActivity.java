@@ -13,7 +13,12 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -48,16 +53,18 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         //createFileName
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-        final String fileName = userName + '_' + currentDateTimeString.toString() + ".txt";
-        File file = new File(this.getFilesDir(), fileName);
-        FileUtil.appendStringToFile("hello World", file );
+        final String fileName = userName + '_' + currentDateTimeString.toString() + ".csv";
+        final File file = new File(this.getFilesDir(), fileName);
+        FileUtil.writeStringAsFile("Time, Char", file);
+
 
 
         EditText editText = (EditText) findViewById(R.id.sim_editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                TextView changed = (TextView) findViewById(R.id.textView);
+                changed.setText(s.toString());
 
             }
 
@@ -70,7 +77,9 @@ public class DisplayMessageActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 TextView changed = (TextView) findViewById(R.id.textView);
                 //changed.setText(Long.toString(System.currentTimeMillis()));
-                changed.setText(currentDateTimeString);
+                String newChar = Util.getNewCharacter(changed.getText().toString(), s.toString());
+                changed.setText(newChar);
+                FileUtil.appendStringToFile(Long.toString(System.currentTimeMillis()) + "," + newChar , file);
             }
         });
 
