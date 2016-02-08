@@ -22,10 +22,21 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/buton_send"
+        android:text="@string/buton_send_startKeyboardSim"
         android:onClick="sendMessage"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send_startChecklistSim"
+        android:id="@+id/button"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="61dp"
+        android:onClick="startCheckListActivity"/>
 
 
 </RelativeLayout>

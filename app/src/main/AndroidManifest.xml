@@ -21,6 +21,10 @@
         <activity
             android:name=".DisplayMessageActivity"
             android:label="@string/title_activity_display_message"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CheckListActivity"
+            android:label="@string/title_activity_check_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
