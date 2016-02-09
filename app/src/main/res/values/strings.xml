@@ -5,6 +5,6 @@
     <string name="buton_send_startKeyboardSim">Start Keyboard Sim</string>
     <string name="title_activity_keyboard_sim">Keyboard Sim</string>
     <string name="title_activity_display_message">Keyboard Sim</string>
-    <string name="title_activity_check_list">My Checklist</string>
+    <string name="title_activity_check_list">Checklist Sim</string>
     <string name="button_send_startChecklistSim">Start Checklist Sim</string>
 </resources>

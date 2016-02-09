@@ -42,7 +42,7 @@ public class CheckListActivity extends AppCompatActivity {
 
         // Create and populate a List of planet names.
         String[] planets = new String[] { "Mercury", "Venus", "Earth", "Mars",
-                "Jupiter", "Saturn", "Uranus", "Neptune"};
+                "Jupiter"};
         ArrayList<String> planetList = new ArrayList<String>();
         planetList.addAll( Arrays.asList(planets) );
 
@@ -53,10 +53,6 @@ public class CheckListActivity extends AppCompatActivity {
         // into the ArrayAdapter constructor, you must not add more items.
         // Otherwise an exception will occur.
         listAdapter.add( "Ceres" );
-        listAdapter.add( "Pluto" );
-        listAdapter.add( "Haumea" );
-        listAdapter.add( "Makemake" );
-        listAdapter.add( "Eris" );
 
         // Set the ArrayAdapter as the ListView's adapter.
         mainListView.setAdapter( listAdapter );
@@ -74,16 +70,21 @@ public class CheckListActivity extends AppCompatActivity {
     public void readText(View view)
     {
         TextView textView = (TextView) view;
-        ((TextView) view).setTextColor(Color.parseColor("#7ec0ee")); // custom
+        ((TextView) view).setBackgroundColor(Color.parseColor("#008000")); // custom
         String speech = textView.getText().toString();
-        t1.speak(speech, TextToSpeech.QUEUE_FLUSH, null, null);
+
 
         if(clickedItems.containsKey(speech))
         {
-            listAdapter.remove(speech);
+            clickedItems.remove(speech);
+
+            ((TextView) view).setBackgroundColor(Color.parseColor("#FFFFFF")); // custom
+            t1.speak(speech + " " + "Unchecked", TextToSpeech.QUEUE_FLUSH, null, null);
+
         }
         else
         {
+            t1.speak(speech + " " + "checked", TextToSpeech.QUEUE_FLUSH, null, null);
             clickedItems.put(speech, 1);
         }
     }
