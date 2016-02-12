@@ -1,3 +1,20 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        mavenCentral()
+    }
+}
+
 apply plugin: 'com.android.application'
 
 android {
@@ -25,6 +42,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.hoho.android:usb-serial-for-android:0.2.0-SNAPSHOT@aar'
     compile files('src/androidTest/java/Libs/gdata-spreadsheet-1.0.jar')
     compile files('src/androidTest/java/Libs/gdata-photos-1.0.jar')
     compile files('src/androidTest/java/Libs/gdata-codesearch-1.0.jar')
