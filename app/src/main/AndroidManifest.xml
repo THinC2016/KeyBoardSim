@@ -15,8 +15,10 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
@@ -28,12 +30,23 @@
         <activity
             android:name=".CheckListActivity"
             android:label="@string/title_activity_check_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".ScenarioSelection"
+            android:label="@string/title_activity_scenario_selection"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CountDown"
+            android:label="@string/title_activity_count_down"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -14,6 +14,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FileUtils.
@@ -99,6 +101,22 @@ final class FileUtil {
             //   Log.e(Constants.LOG_TAG, "Error appending string data to file " + e.getMessage(), e);
         }
         return result;
+    }
+
+    public static List<String> getFileNamesInFolderContainVal(String folderPath, String val) {
+
+        ArrayList<String> inFiles = new ArrayList<String>();
+
+        File folder = new File(folderPath);
+        String[] fileNames = folder.list();
+        for (String fileName : fileNames) {
+            if(fileName.contains(val))
+            {
+                inFiles.add(fileName);
+            }
+        }
+
+        return inFiles;
     }
 
 }
