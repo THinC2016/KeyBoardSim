@@ -25,7 +25,7 @@ import java.util.Date;
 
 
 
-public class DisplayMessageActivity extends AppCompatActivity {
+public class FlightPlanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

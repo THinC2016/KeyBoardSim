@@ -22,7 +22,7 @@
                 android:resource="@xml/device_filter" />
         </activity>
         <activity
-            android:name=".DisplayMessageActivity"
+            android:name=".FlightPlanActivity"
             android:label="@string/title_activity_display_message"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
