@@ -102,7 +102,7 @@ public class FlightPlanActivity extends AppCompatActivity {
         } catch (Exception e){
             Toast.makeText(getApplicationContext(), "Error in initializing scenario reader",
                     Toast.LENGTH_LONG).show();
-            return; 
+            return;
         }
 
         String fb = fsr.getScenarioFeedback();
@@ -119,8 +119,5 @@ public class FlightPlanActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
-
-    }
-
-
+    
 }
