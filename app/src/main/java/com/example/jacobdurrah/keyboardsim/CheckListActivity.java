@@ -98,9 +98,24 @@ public class CheckListActivity extends AppCompatActivity {
         int scenarioNum = b.getInt(BUNDLE_SCENARIO_KEY);
         FlightScenarioReader fsr;
         try {
-            new FlightScenarioReader(SCENARIO_FILE_PREFIX + scenarioNum);
+            fsr = new FlightScenarioReader(SCENARIO_FILE_PREFIX + scenarioNum);
         } catch (Exception e){
             Toast.makeText(getApplicationContext(), "Error in initializing scenario reader",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        
+        String fb = fsr.getScenarioFeedback();
+        if(fb.equals("none")){
+            Toast.makeText(getApplicationContext(), "Feedback is not provided",
+                    Toast.LENGTH_LONG).show();
+        }
+        else if(fb.equals("vis")){
+            Toast.makeText(getApplicationContext(), "Visual feedback is provided",
+                    Toast.LENGTH_LONG).show();
+        }
+        else if(fb.equals("aud")){
+            Toast.makeText(getApplicationContext(), "Audible feedback is provided",
                     Toast.LENGTH_LONG).show();
         }
     }
