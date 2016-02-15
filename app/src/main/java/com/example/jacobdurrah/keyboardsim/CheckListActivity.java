@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,9 @@ import java.util.Map;
 
 
 public class CheckListActivity extends AppCompatActivity {
+    public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
+    public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
+    public final static String SCENARIO_FILE_PREFIX = "";
 
     private ListView mainListView ;
     private ArrayAdapter<String> listAdapter ;
@@ -89,4 +93,31 @@ public class CheckListActivity extends AppCompatActivity {
         }
     }
 
+    private void readInScenario(){
+        Bundle b = getIntent().getExtras();
+
+        int scenarioNum = b.getInt(BUNDLE_SCENARIO_KEY);
+        FlightScenarioReader fsr;
+        try {
+            fsr = new FlightScenarioReader(SCENARIO_FILE_PREFIX + scenarioNum);
+        } catch (Exception e){
+            Toast.makeText(getApplicationContext(), "Error in initializing scenario reader",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+        
+        String fb = fsr.getScenarioFeedback();
+        if(fb.equals("none")){
+            Toast.makeText(getApplicationContext(), "Feedback is not provided",
+                    Toast.LENGTH_LONG).show();
+        }
+        else if(fb.equals("vis")){
+            Toast.makeText(getApplicationContext(), "Visual feedback is provided",
+                    Toast.LENGTH_LONG).show();
+        }
+        else if(fb.equals("aud")){
+            Toast.makeText(getApplicationContext(), "Audible feedback is provided",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
 }

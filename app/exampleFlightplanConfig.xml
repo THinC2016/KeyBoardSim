@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!-- Meant to be an example script for checklist configuration -->
+<FLIGHTPLAN>
+	<!-- Can also be none, vis -->
+	<feedback>aud</feedback>
+	<instr>These are the instructions that will appear</instr>
+	<item>1: Example item</item>
+	<item>2: Example item</item>
+	<item>3: Example item</item>
+	<item>4: Example item</item>
+</FLIGHTPLAN>
