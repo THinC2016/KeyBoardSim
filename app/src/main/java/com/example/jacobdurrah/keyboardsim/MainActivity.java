@@ -26,6 +26,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private Vibration mNextVibration;
 
     private String mParticipantID;
-    private int mNextScenario;
+    private int mNextCLScenario;
+    private int mNextFPScenario;
 
     public final static String FP_TASK = "FP";
     public final static String CL_TASK = "CL";
@@ -56,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String VIB_HANDLER = "com.example.jacobdurrah.keyboardsim.VibHandler";
     public final static String TASK_HANDLER = "com.example.jacobdurrah.keyboardsim.TaskHandler";
 
-    public final static String BUNDLE_SCENARIO_KEY = "";
-    public final static String BUNDLE_PARTICIPANT_KEY = "";
+    public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
+    public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -112,12 +114,14 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.edit_message);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(BUNDLE_SCENARIO_KEY, mNextFPScenario);
+        intent.putExtra(BUNDLE_PARTICIPANT_KEY, mParticipantID);
         startActivity(intent);
     }
 
     public void startCheckListActivity(View view) {
         Intent intent = new Intent(this, CheckListActivity.class);
-        intent.putExtra(BUNDLE_SCENARIO_KEY, mNextScenario);
+        intent.putExtra(BUNDLE_SCENARIO_KEY, mNextCLScenario);
         intent.putExtra(BUNDLE_PARTICIPANT_KEY, mParticipantID);
         startActivity(intent);
     }
@@ -125,15 +129,21 @@ public class MainActivity extends AppCompatActivity {
 
     //Handle private member initialization and callback registration for async callbacks
     private void setup() {
+
+        mTaskQueue = new LinkedList<>();
+        mVibrationQueue = new LinkedList<>();
+
         mVibHandler = new VibrationHandler();
         Bundle b = getIntent().getExtras();
         String scenario = b.getString(BUNDLE_SCENARIO_KEY);
         mParticipantID = b.getString(BUNDLE_PARTICIPANT_KEY);
 
-        FlightScenarioReader fsr = new FlightScenarioReader(scenario);
+        FlightScenarioReader fsr;
         try {
+            fsr = new FlightScenarioReader(scenario);
             fsr.updateQueues(mVibrationQueue, mTaskQueue);
         } catch (Exception e) {
+            e.printStackTrace();
             Toast.makeText(getApplicationContext(), "IOException on scenario file read",
                     Toast.LENGTH_LONG);
         }
@@ -163,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
         Intent vibIntent = new Intent(VIB_HANDLER);
         mVibIntent = PendingIntent.getBroadcast(this, 0, vibIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //INITIALIZE ALARMS
+        mNextVibAlarm = (AlarmManager) (this.getSystemService(Context.ALARM_SERVICE));
+        mNextTaskAlarm = (AlarmManager) (this.getSystemService(Context.ALARM_SERVICE));
     }
 
     private void handleVibration() {
@@ -219,10 +233,10 @@ public class MainActivity extends AppCompatActivity {
 
         if (thisTask.getType().equals(FP_TASK)) {
             //Call Jacob's function to display notification & button
-
+            mNextFPScenario = thisTask.getScenario();
         } else if (thisTask.getType().equals(CL_TASK)) {
             //Call Jacob's function to display notification & button
-
+            mNextCLScenario = thisTask.getScenario();
         } else {
             Toast.makeText(getApplicationContext(), "Bad task in XML file, not updating",
                     Toast.LENGTH_LONG).show();
