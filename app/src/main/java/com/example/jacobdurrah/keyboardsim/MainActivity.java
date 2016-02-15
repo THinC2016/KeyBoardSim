@@ -13,24 +13,28 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Queue;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Queue<Vibration> mVibrationQueue;
-    private Queue<Task> mTaskQueue;
-    private VibrationHandler mVibHandler;
+    private Queue<Vibration>    mVibrationQueue;
+    private Queue<Task>         mTaskQueue;
+    private VibrationHandler    mVibHandler;
 
-    private PendingIntent mFPIntent;
-    private PendingIntent mCLIntent;
+    private PendingIntent       mFPIntent;
+    private PendingIntent       mCLIntent;
 
-    private BroadcastReceiver mFPReceiver;
-    private BroadcastReceiver mCLReceiver;
+    private BroadcastReceiver   mFPReceiver;
+    private BroadcastReceiver   mCLReceiver;
+    private BroadcastReceiver   mVibReceiver;
 
-    private AlarmManager mNextVibAlarm;
-    private AlarmManager mNextTaskAlarm;
+    private AlarmManager        mNextVibAlarm;
+    private AlarmManager        mNextTaskAlarm;
 
+    private Vibration           mNextVibration;
+    private Task                mNextTask;
 
     public final static String EXTRA_MESSAGE = "com.example.jacobdurrah.keyboardsim.MESSAGE";
 
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendMessage(View view)
+    public void startFlightplanActivity(View view)
     {
         Intent intent = new Intent(this, FlightPlanActivity.class);
         EditText editText = (EditText) findViewById(R.id.edit_message);
@@ -83,21 +87,36 @@ public class MainActivity extends AppCompatActivity {
     private void setup(){
         mVibHandler = new VibrationHandler();
 
+        //FLIGHTPLAN
         mFPReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
-            }
+                Toast.makeText(context, "Starting flightplan task", Toast.LENGTH_SHORT).show();            }
         };
-        registerReceiver(mFPReceiver, new IntentFilter("com.example.jacobdurrah.keyboardsim."));
+        registerReceiver(mFPReceiver, new IntentFilter("com.example.jacobdurrah.keyboardsim." +
+                "FlightPlanActivity"));
+        Intent fpintent = new Intent("com.example.jacobdurrah.keyboardsim.FlightPlanActivity");
+        mFPIntent = PendingIntent.getBroadcast(this, 0, , PendingIntent.FLAG_UPDATE_CURRENT);
 
+        //CHECKLIST
         mCLReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
+                Toast.makeText(context, "Starting checklist task", Toast.LENGTH_LONG).show();
             }
         };
-        registerReceiver();
+        registerReceiver(mCLReceiver, new IntentFilter("com.example.jacobdurrah.keyboardsim." +
+                "CheckListActivity"));
+        Intent clintent = new Intent("com.example.jacobdurrah.keyboardsim.CheckListActivity");
+        mCLIntent = PendingIntent.getBroadcast(this, 0, , PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    private void handleVibration(){
 
     }
+
+    private void handleTask(){
+
+    }
+
 }
