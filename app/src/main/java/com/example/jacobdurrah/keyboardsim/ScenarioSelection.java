@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Environment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,8 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.File;
 import java.util.Map;
 
 
@@ -40,10 +38,19 @@ public class ScenarioSelection extends AppCompatActivity {
         mainListView = (ListView) findViewById( R.id.listScenarios );
 
         listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow);
+        //get directory from SD card
+
+
+
+        //File dir = new File(this.getFilesDir(),null);
+
+
 
         //Get a list of all names in folder ___ that contain the value val in the filename
-        listAdapter.addAll(FileUtil.getFileNamesInFolderContainVal("examFolder", "example"));
+        //listAdapter.addAll(FileUtil.getFileNamesInFolderContainVal(dir.getPath(), "e"));
         // Set the ArrayAdapter as the ListView's adapter.
+        //To-Do get this to display a list of all scripts
+        listAdapter.add("Example");
         mainListView.setAdapter( listAdapter );
 
     }

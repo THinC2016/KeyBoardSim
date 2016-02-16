@@ -107,15 +107,19 @@ final class FileUtil {
 
         ArrayList<String> inFiles = new ArrayList<String>();
 
-        File folder = new File(folderPath);
-        String[] fileNames = folder.list();
-        for (String fileName : fileNames) {
-            if(fileName.contains(val))
+    //    File folder = new File(folderPath);
+      //  String[] fileNames = folder.list();
+
+       /* for (String fileName : fileNames) {
+          //  if(fileName.contains(val))
             {
                 inFiles.add(fileName);
             }
         }
-
+        */
+        inFiles.add("ExampleScript1");
+       // inFiles.add("ExampleScript2");
+        //inFiles.add(folder.list().toString());
         return inFiles;
     }
 

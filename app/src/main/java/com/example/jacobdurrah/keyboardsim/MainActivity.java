@@ -18,11 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
-
+/*
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-
+*/
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,17 +64,17 @@ public class MainActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+   // private GoogleApiClient client;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setup();
+       // setup();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+     //   client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -125,7 +125,13 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(BUNDLE_PARTICIPANT_KEY, mParticipantID);
         startActivity(intent);
     }
-
+    public void startScenarioSelectionActivity(View view) {
+        Intent intent = new Intent(this, ScenarioSelection.class);
+        EditText editText = (EditText) findViewById(R.id.participant_id);
+        String participantId = editText.getText().toString();
+        intent.putExtra(BUNDLE_PARTICIPANT_KEY, participantId);
+        startActivity(intent);
+    }
 
     //Handle private member initialization and callback registration for async callbacks
     private void setup() {
@@ -259,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         mNextTaskAlarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
                 diff, mTaskIntent);
     }
-
+/*
     @Override
     public void onStart() {
         super.onStart();
@@ -299,4 +305,5 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+    */
 }
