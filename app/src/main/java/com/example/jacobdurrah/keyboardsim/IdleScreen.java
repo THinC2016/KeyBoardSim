@@ -11,42 +11,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CountDown extends AppCompatActivity {
+public class IdleScreen extends AppCompatActivity {
     private CountDownTimer countDownTimer;
-    private boolean timerHasStarted = false;
-    private Button startB;
-    public TextView text;
-    private final long startTime = 10 * 1000;
+    private final long startTime = 5 * 1000;
     private final long interval = 1 * 1000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_count_down);
+        setContentView(R.layout.activity_idle_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-        text = (TextView) this.findViewById(R.id.timer);
+        //start logging time
         countDownTimer = new MyCountDownTimer(startTime, interval);
-        text.setText(text.getText() + String.valueOf(startTime / 1000));
+        countDownTimer.start();
 
-
-    }
-
-
-    public void Click(View v) {
-        startB = (Button) v;
-        if (!timerHasStarted) {
-            countDownTimer.start();
-            timerHasStarted = true;
-            startB.setText("STOP");
-        } else {
-            countDownTimer.cancel();
-            timerHasStarted = false;
-            startB.setText("RESTART");
-        }
     }
 
     public class MyCountDownTimer extends CountDownTimer {
@@ -56,21 +35,19 @@ public class CountDown extends AppCompatActivity {
 
         @Override
         public void onFinish() {
-            text.setText("SIM Starting");
+
             //start next activity
-            startIdleActivity();
+            startCheckListActivity();
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            text.setText("" + millisUntilFinished / 1000);
         }
     }
 
-    public void startIdleActivity() {
-        Intent intent = new Intent(this, IdleScreen.class);
+    public void startCheckListActivity() {
+        Intent intent = new Intent(this, CheckListActivity.class);
         startActivity(intent);
     }
-
 
 }

@@ -14,7 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -33,23 +34,12 @@ public class ScenarioSelection extends AppCompatActivity {
         setContentView(R.layout.activity_scenario_selection);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        clickedItems = new HashMap();
 
         // Find the ListView resource.
         mainListView = (ListView) findViewById( R.id.listScenarios );
 
-        listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow);
-        //get directory from SD card
-
-
-
-        //File dir = new File(this.getFilesDir(),null);
-
-
-
-        //Get a list of all names in folder ___ that contain the value val in the filename
-        //listAdapter.addAll(FileUtil.getFileNamesInFolderContainVal(dir.getPath(), "e"));
-        // Set the ArrayAdapter as the ListView's adapter.
-        //To-Do get this to display a list of all scripts
+        listAdapter = new ArrayAdapter<String>(this, R.layout.simple_row_scenario);
         listAdapter.add("Example");
         mainListView.setAdapter( listAdapter );
 
@@ -89,9 +79,10 @@ public class ScenarioSelection extends AppCompatActivity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-
+            return;
         }
-        String Scenario_ID = (String)clickedItems.entrySet().iterator().next();
+        //TODO: convert clickedItems to a list
+        String Scenario_ID = "example";  //(String)clickedItems.entrySet().iterator().next();
         Intent intent = new Intent(this, CountDown.class);
         intent.putExtra(BUNDLE_SCENARIO_KEY, Scenario_ID);
         startActivity(intent);

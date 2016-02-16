@@ -1,5 +1,6 @@
 package com.example.jacobdurrah.keyboardsim;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -70,6 +71,10 @@ public class CheckListActivity extends AppCompatActivity {
             }
         });
     }
+    public void startIdleActivity(View view) {
+        Intent intent = new Intent(this, IdleScreen.class);
+        startActivity(intent);
+    }
 
     public void readText(View view)
     {
@@ -120,4 +125,6 @@ public class CheckListActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
+
+
 }
