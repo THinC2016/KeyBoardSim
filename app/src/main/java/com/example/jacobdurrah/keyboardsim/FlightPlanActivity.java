@@ -30,6 +30,7 @@ public class FlightPlanActivity extends AppCompatActivity {
     public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
     public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
     public final static String SCENARIO_FILE_PREFIX = "";
+    private String oldText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class FlightPlanActivity extends AppCompatActivity {
 
         //get username from intent
         Intent intent = getIntent();
-        String userName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String userName = intent.getStringExtra(BUNDLE_PARTICIPANT_KEY);
 
         //createFileName
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
@@ -61,14 +62,16 @@ public class FlightPlanActivity extends AppCompatActivity {
         final File file = new File(this.getFilesDir(), fileName);
         FileUtil.writeStringAsFile("Time, Char", file);
 
-
+        TextView instructionView = (TextView) findViewById(R.id.textView);
+        instructionView.setText("Enter Waypoint: BGDIG");
 
         EditText editText = (EditText) findViewById(R.id.sim_editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 TextView changed = (TextView) findViewById(R.id.textView);
-                changed.setText(s.toString());
+                //changed.setText(s.toString());
+                oldText = s.toString();
 
             }
 
@@ -81,8 +84,9 @@ public class FlightPlanActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 TextView changed = (TextView) findViewById(R.id.textView);
                 //changed.setText(Long.toString(System.currentTimeMillis()));
-                String newChar = Util.getNewCharacter(changed.getText().toString(), s.toString());
-                changed.setText(newChar);
+                String newChar = Util.getNewCharacter(oldText, s.toString());
+                //.setText(newChar);
+                oldText = newChar;
                 FileUtil.appendStringToFile(Long.toString(System.currentTimeMillis()) + "," + newChar , file);
             }
         });
@@ -91,6 +95,9 @@ public class FlightPlanActivity extends AppCompatActivity {
 
     }
 
+    public void startIdleActivity(View view) {
+        finish();
+    }
 
     private void readInScenario(){
         Bundle b = getIntent().getExtras();

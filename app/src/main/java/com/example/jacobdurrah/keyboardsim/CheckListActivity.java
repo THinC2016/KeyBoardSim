@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,14 @@ public class CheckListActivity extends AppCompatActivity {
     private ArrayAdapter<String> listAdapter ;
     private TextToSpeech t1;
 
+    //Information needed
+    //Audio Feedback
+    private boolean audioFeedBack;
+    //Visual Feed
+    private boolean visualFeedBack;
+    //List of items to be displayed
+
+
     private Map clickedItems;
 
     @Override
@@ -41,6 +50,13 @@ public class CheckListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         clickedItems = new HashMap();
 
+        //Information needed
+        //Audio Feedback
+         audioFeedBack = false;
+        //Visual Feed
+        visualFeedBack = false;
+
+        //List of items to be displayed
 
         // Find the ListView resource.
         mainListView = (ListView) findViewById( R.id.listView );
@@ -59,6 +75,7 @@ public class CheckListActivity extends AppCompatActivity {
         // Otherwise an exception will occur.
         listAdapter.add( "Ceres" );
 
+
         // Set the ArrayAdapter as the ListView's adapter.
         mainListView.setAdapter( listAdapter );
 
@@ -72,28 +89,45 @@ public class CheckListActivity extends AppCompatActivity {
         });
     }
     public void startIdleActivity(View view) {
-        Intent intent = new Intent(this, IdleScreen.class);
-        startActivity(intent);
+       finish();
     }
 
     public void readText(View view)
     {
-        TextView textView = (TextView) view;
-        ((TextView) view).setBackgroundColor(Color.parseColor("#008000")); // custom
+        CheckedTextView textView = (CheckedTextView) view;
+        if(visualFeedBack) {
+            textView.setBackgroundColor(Color.parseColor("#008000")); // custom
+        }
+        else
+        {
+            ((CheckedTextView) view).setChecked(true);
+        }
+
         String speech = textView.getText().toString();
 
 
         if(clickedItems.containsKey(speech))
         {
             clickedItems.remove(speech);
-
-            ((TextView) view).setBackgroundColor(Color.parseColor("#FFFFFF")); // custom
-            t1.speak(speech + " " + "Unchecked", TextToSpeech.QUEUE_FLUSH, null, null);
+            if(visualFeedBack) {
+                ((CheckedTextView) view).setChecked(false);
+                ((CheckedTextView) view).setBackgroundColor(Color.parseColor("#FFFFFF")); // custom
+            }
+            else
+            {
+                ((CheckedTextView) view).setChecked(false);
+                ((CheckedTextView) view).setBackgroundColor(Color.parseColor("#FFFFFF"));
+            }
+            if(audioFeedBack) {
+                t1.speak(speech + " " + "Unchecked", TextToSpeech.QUEUE_FLUSH, null, null);
+            }
 
         }
         else
         {
-            t1.speak(speech + " " + "checked", TextToSpeech.QUEUE_FLUSH, null, null);
+            if(audioFeedBack) {
+                t1.speak(speech + " " + "checked", TextToSpeech.QUEUE_FLUSH, null, null);
+            }
             clickedItems.put(speech, 1);
         }
     }
