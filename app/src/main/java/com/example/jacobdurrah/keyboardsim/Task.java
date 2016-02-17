@@ -33,6 +33,7 @@ public class Task {
         mAudioFeedBack = audioFeedBack;
 
 
+
     }
     public Task(int scen, String type, int secondsToWait, boolean visualFeedBack, boolean audioFeedBack
             , boolean vibration, String[] checkList){//checklist constructor
@@ -44,6 +45,10 @@ public class Task {
         mVisualFeedBack = visualFeedBack;
         mAudioFeedBack = audioFeedBack;
 
+    }
+    public Task(String type, int secondsToWait, boolean vibration){//waypoint constructor
+        mType = type;
+        mSecondsToWait = secondsToWait;//number of seconds after previous task completed
     }
 
     public int getScenario(){
@@ -66,7 +71,7 @@ public class Task {
         return mVisualFeedBack;
     }
     public boolean getmAudioFeedBack(){
-        return mVisualFeedBack;
+        return mAudioFeedBack;
     }
     public boolean getmVibration(){
         return mVibration;

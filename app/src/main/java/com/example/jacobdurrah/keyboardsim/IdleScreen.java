@@ -3,22 +3,16 @@ package com.example.jacobdurrah.keyboardsim;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -44,6 +38,7 @@ public class IdleScreen extends AppCompatActivity {
 
         setup();
         setupVibration();
+      //  mVibrationHandler.changeVibration(9, 9);
         currentTask = mTaskQueue.remove();
 
         if(currentTask != null) {
@@ -70,24 +65,55 @@ public class IdleScreen extends AppCompatActivity {
         @Override
         public void onFinish() {
 
-            if(currentTask.getType() == "CL")
-            {
-                //start next activity
-                startCheckListActivity();
-                CheckListDone = true;
-            }
-            else
-            {
-                startFlightplanActivity();
-                CheckListDone = false;
-
-            }
+            add_Button(true);
 
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
         }
+    }
+        public void add_Button(boolean add)
+        {
+            LinearLayout mainLayout = (LinearLayout)findViewById(R.id.idle_layout);
+            if(add) {
+                Button addButton = new Button(this);
+
+                addButton.setId(0);
+                if (currentTask.getType() == "FP") {
+                    addButton.setText("Start FlightPlan Task");
+                } else if (currentTask.getType() == "CL") {
+                    addButton.setText("Start CheckList Task");
+                }
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        startTask();
+                    }
+                });
+
+                mainLayout.addView(addButton);
+            }
+            else
+            {
+               mainLayout.removeAllViews();
+            }
+
+        }
+    public void startTask()
+    {
+        if(currentTask.getType() == "CL")
+        {
+            //start next activity
+            startCheckListActivity();
+            CheckListDone = true;
+        }
+        else
+        {
+            startFlightplanActivity();
+            CheckListDone = false;
+
+        }
+
     }
 
     @Override
@@ -99,6 +125,7 @@ public class IdleScreen extends AppCompatActivity {
         if(currentTask != null) {
             countDownTimer = new MyCountDownTimer(startTime * currentTask.getmSecondsToWait(), interval);
             countDownTimer.start();
+            add_Button(false); //remove the button from the screen
         }
         else
         {
@@ -172,7 +199,7 @@ public class IdleScreen extends AppCompatActivity {
                 new String[]{   //checklist
                         "list hello",
                         "list world",
-                        "List ilove you",
+                        "List  you",
                         "List four",
                         "List five",
                         "List six"}));
