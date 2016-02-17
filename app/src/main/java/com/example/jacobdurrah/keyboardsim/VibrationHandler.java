@@ -2,6 +2,7 @@ package com.example.jacobdurrah.keyboardsim;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
@@ -46,22 +47,29 @@ public class VibrationHandler {
     private UsbSerialPort mPort;
     private UsbManager mUSBManager;
     private SerialInputOutputManager mIOManager;
-
+    private Context             ctxt;
     public VibrationHandler(){
         mAmpl = -1;
         mFreq = -1;
     }
 
     public boolean init(Context ctxt){
+        this.ctxt = ctxt;
         mUSBManager = (UsbManager) ctxt.getSystemService(Context.USB_SERVICE);
         List<UsbSerialDriver> availDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUSBManager);
-        if(availDrivers.isEmpty())
-            return false;
+        if(availDrivers.isEmpty()) {
+            Toast.makeText(ctxt, "Error in initializing scenario reader",
+                    Toast.LENGTH_LONG).show();
 
+            return false;
+        }
         UsbSerialDriver driver = availDrivers.get(0);
         UsbDeviceConnection cnxn = mUSBManager.openDevice(driver.getDevice());
-        if(cnxn == null)
+        if(cnxn == null) {
+            Toast.makeText(ctxt, "Null connection",
+                    Toast.LENGTH_LONG).show();
             return false;
+        }
 
         mPort = driver.getPorts().get(0);
 
@@ -85,6 +93,8 @@ public class VibrationHandler {
             mFreq = -1;
         } catch (IOException e) {
             success = false;
+            Toast.makeText(ctxt, "IOError in stopVibration",
+                    Toast.LENGTH_LONG).show();
         }
         return success;
     }
@@ -105,6 +115,8 @@ public class VibrationHandler {
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
         } catch (IOException e) {
+            Toast.makeText(ctxt, "IOError in changeVibration",
+                    Toast.LENGTH_LONG).show();
             success = false;
         }
 
@@ -120,6 +132,8 @@ public class VibrationHandler {
             mPort.write(msg.getBytes(), TIMEOUT);
             mAmpl = ampl;
         } catch (IOException e){
+            Toast.makeText(ctxt, "IOError in setAmplitude",
+                    Toast.LENGTH_LONG).show();
             success = false;
         }
         return success;
@@ -134,6 +148,8 @@ public class VibrationHandler {
             mPort.write(msg.getBytes(), TIMEOUT);
             mFreq = freq;
         } catch (IOException e){
+            Toast.makeText(ctxt, "IOError in setFrequency",
+                    Toast.LENGTH_LONG).show();
             success = false;
         }
         return success;
