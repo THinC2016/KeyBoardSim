@@ -43,7 +43,7 @@ public class IdleScreen extends AppCompatActivity {
 
         //if(currentTask != null) {
             //start logging time
-            countDownTimer = new MyCountDownTimer(startTime * 101, interval);
+            countDownTimer = new MyCountDownTimer(startTime * 404, 4*interval);
             countDownTimer.start();
         //}
         //else
