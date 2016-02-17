@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(BUNDLE_PARTICIPANT_KEY, participantId);
         startActivity(intent);
     }
+    /*
 
     //Handle private member initialization and callback registration for async callbacks
     private void setup() {
@@ -254,17 +255,18 @@ public class MainActivity extends AppCompatActivity {
         Date cur;
         Date next;
         try {
-            cur = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
-            next = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
+          //TODO: Fix broken cur = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
+          //TODO:Fix broken  next = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Error in parsing vibration time", Toast.LENGTH_LONG)
                     .show();
             return;
         }
-        long diff = next.getTime() - cur.getTime();
-        mNextTaskAlarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
-                diff, mTaskIntent);
+       //TODO: Fix Broken long diff = next.getTime() - cur.getTime();
+     //   mNextTaskAlarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
+//                diff, mTaskIntent);
     }
+    */
 /*
     @Override
     public void onStart() {

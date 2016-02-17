@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class ScenarioSelection extends AppCompatActivity {
     private ListView mainListView ;
     private ArrayAdapter<String> listAdapter ;
 
-    private Map clickedItems;
+    private List<String> clickedItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +35,25 @@ public class ScenarioSelection extends AppCompatActivity {
         setContentView(R.layout.activity_scenario_selection);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        clickedItems = new HashMap();
+        clickedItems = new ArrayList<>();
 
         // Find the ListView resource.
         mainListView = (ListView) findViewById( R.id.listScenarios );
 
         listAdapter = new ArrayAdapter<String>(this, R.layout.simple_row_scenario);
-        listAdapter.add("Example");
+        listAdapter.add("Scenario 1");
+        listAdapter.add("Scenario 2");
+        listAdapter.add("Scenario 3");
+        listAdapter.add("Scenario 4");
         mainListView.setAdapter( listAdapter );
 
     }
 
-    public void startSimActivity(View view) {
+    public void scenarioCLicked(View view) {
         TextView textView = (TextView) view;
         String scenarioFileName = textView.getText().toString();
 
-        if(clickedItems.size() >=1 && !clickedItems.containsKey(scenarioFileName))
+        if(clickedItems.size() >=1 && !clickedItems.contains(scenarioFileName))
         {
             Context context = getApplicationContext();
             CharSequence text = "Only one Scenario can be checked!";
@@ -58,7 +62,7 @@ public class ScenarioSelection extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-        else if(clickedItems.containsKey(scenarioFileName))
+        else if(clickedItems.contains(scenarioFileName))
         {
             clickedItems.remove(scenarioFileName);
 
@@ -67,7 +71,7 @@ public class ScenarioSelection extends AppCompatActivity {
         else
         {
             ((TextView) view).setBackgroundColor(Color.parseColor("#008000")); // custom
-            clickedItems.put(scenarioFileName, 1);
+            clickedItems.add(scenarioFileName);
         }
     }
 
@@ -81,10 +85,18 @@ public class ScenarioSelection extends AppCompatActivity {
             toast.show();
             return;
         }
+        else if(clickedItems.size() > 1)
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "Too many Scenarios selected";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
         //TODO: convert clickedItems to a list
-        String Scenario_ID = "example";  //(String)clickedItems.entrySet().iterator().next();
+
         Intent intent = new Intent(this, CountDown.class);
-        intent.putExtra(BUNDLE_SCENARIO_KEY, Scenario_ID);
+        intent.putExtra(BUNDLE_SCENARIO_KEY, clickedItems.remove(0));
         startActivity(intent);
 
 

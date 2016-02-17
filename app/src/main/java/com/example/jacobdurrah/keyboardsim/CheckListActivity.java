@@ -24,8 +24,6 @@ import java.util.Map;
 
 
 public class CheckListActivity extends AppCompatActivity {
-    public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
-    public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
     public final static String SCENARIO_FILE_PREFIX = "";
 
     private ListView mainListView ;
@@ -52,29 +50,20 @@ public class CheckListActivity extends AppCompatActivity {
 
         //Information needed
         //Audio Feedback
-         audioFeedBack = false;
+        audioFeedBack = getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true);
         //Visual Feed
-        visualFeedBack = false;
+        visualFeedBack = getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Visual_KEY, true);
 
         //List of items to be displayed
 
         // Find the ListView resource.
         mainListView = (ListView) findViewById( R.id.listView );
 
-        // Create and populate a List of planet names.
-        String[] planets = new String[] { "Mercury", "Venus", "Earth", "Mars",
-                "Jupiter"};
-        ArrayList<String> planetList = new ArrayList<String>();
-        planetList.addAll( Arrays.asList(planets) );
+        Intent intent = getIntent();
+        ArrayList<String> list = new ArrayList<String>(intent.getStringArrayListExtra(Bundle_Keys.BUNDLE_Checklist_KEY));
 
         // Create ArrayAdapter using the planet list.
-        listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, planetList);
-
-        // Add more planets. If you passed a String[] instead of a List<String>
-        // into the ArrayAdapter constructor, you must not add more items.
-        // Otherwise an exception will occur.
-        listAdapter.add( "Ceres" );
-
+        listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, list);
 
         // Set the ArrayAdapter as the ListView's adapter.
         mainListView.setAdapter( listAdapter );
@@ -97,6 +86,7 @@ public class CheckListActivity extends AppCompatActivity {
         CheckedTextView textView = (CheckedTextView) view;
         if(visualFeedBack) {
             textView.setBackgroundColor(Color.parseColor("#008000")); // custom
+            ((CheckedTextView) view).setChecked(true);
         }
         else
         {
@@ -116,7 +106,6 @@ public class CheckListActivity extends AppCompatActivity {
             else
             {
                 ((CheckedTextView) view).setChecked(false);
-                ((CheckedTextView) view).setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
             if(audioFeedBack) {
                 t1.speak(speech + " " + "Unchecked", TextToSpeech.QUEUE_FLUSH, null, null);
@@ -131,7 +120,7 @@ public class CheckListActivity extends AppCompatActivity {
             clickedItems.put(speech, 1);
         }
     }
-
+/*
     private void readInScenario(){
         Bundle b = getIntent().getExtras();
 
@@ -159,6 +148,6 @@ public class CheckListActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
-
+*/
 
 }
