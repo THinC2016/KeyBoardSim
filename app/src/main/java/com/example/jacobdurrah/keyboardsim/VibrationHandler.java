@@ -6,6 +6,7 @@ import android.widget.Toast;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.util.Log;
 
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
@@ -41,6 +42,8 @@ public class VibrationHandler {
     private static final char AMPL          = 'a';
     private static final char CARR          = '\r';
 
+    private static final String LOG_TAG     = "VibrationHandler";
+
     private int mAmpl;
     private int mFreq;
 
@@ -59,20 +62,13 @@ public class VibrationHandler {
         mUSBManager = (UsbManager) ctxt.getSystemService(Context.USB_SERVICE);
         List<UsbSerialDriver> availDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUSBManager);
         if(availDrivers.isEmpty()) {
-            if(ctxt != null){
-                Toast.makeText(ctxt, "Error in initializing scenario reader",
-                    Toast.LENGTH_LONG).show();
-            }
-
+            Log.i(LOG_TAG, "No available drivers");
             return false;
         }
         UsbSerialDriver driver = availDrivers.get(0);
         UsbDeviceConnection cnxn = mUSBManager.openDevice(driver.getDevice());
         if(cnxn == null) {
-            if(ctxt != null){
-                Toast.makeText(ctxt, "Null connection",
-                    Toast.LENGTH_LONG).show();
-            }
+            Log.i(LOG_TAG, "Null connection");
             return false;
         }
 
@@ -98,10 +94,7 @@ public class VibrationHandler {
             mFreq = -1;
         } catch (IOException e) {
             success = false;
-            if(ctxt != null){
-                Toast.makeText(ctxt, "IOError in stopVibration",
-                    Toast.LENGTH_LONG).show();
-            }
+            Log.i(LOG_TAG, "IOError in stopVibration");
         }
         return success;
     }
@@ -122,10 +115,7 @@ public class VibrationHandler {
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
         } catch (IOException e) {
-            if(ctxt != null){
-                Toast.makeText(ctxt, "IOError in changeVibration",
-                    Toast.LENGTH_LONG).show();
-            }
+            Log.i(LOG_TAG, "IOError in changeVibration");
             success = false;
         }
 
@@ -141,10 +131,7 @@ public class VibrationHandler {
             mPort.write(msg.getBytes(), TIMEOUT);
             mAmpl = ampl;
         } catch (IOException e){
-            if(ctxt != null){
-                Toast.makeText(ctxt, "IOError in setAmplitude",
-                    Toast.LENGTH_LONG).show();
-            }
+            Log.i(LOG_TAG, "IOError in setAmplitude");
             success = false;
         }
         return success;
@@ -159,10 +146,7 @@ public class VibrationHandler {
             mPort.write(msg.getBytes(), TIMEOUT);
             mFreq = freq;
         } catch (IOException e){
-            if(ctxt != null){
-                Toast.makeText(ctxt, "IOError in setFrequency",
-                    Toast.LENGTH_LONG).show();
-            }
+            Log.i(LOG_TAG, "IOError in setFrequency");
             success = false;
         }
         return success;

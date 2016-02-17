@@ -120,6 +120,7 @@ public class CheckListActivity extends AppCompatActivity {
             clickedItems.put(speech, 1);
         }
     }
+
 /*
     private void readInScenario(){
         Bundle b = getIntent().getExtras();
@@ -148,6 +149,6 @@ public class CheckListActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
-*/
-
+   */
 }
+

@@ -38,7 +38,7 @@ public class IdleScreen extends AppCompatActivity {
 
         setup();
         setupVibration();
-      //  mVibrationHandler.changeVibration(9, 9);
+        mVibrationHandler.changeVibration(1, 1);
         currentTask = mTaskQueue.remove();
 
         if(currentTask != null) {
@@ -212,7 +212,7 @@ public class IdleScreen extends AppCompatActivity {
 
     public void setupVibration(){
         mVibQueue = new LinkedList<>();
-
+        mVibrationHandler = new VibrationHandler();
         try {
             mVibrationHandler.init(getApplicationContext());
         } catch (Exception e){
