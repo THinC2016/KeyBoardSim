@@ -24,12 +24,15 @@ import java.util.Queue;
 
 public class IdleScreen extends AppCompatActivity {
  private Queue<Task> mTaskQueue;
+    private Queue<Vibration> mVibQueue;
     private Task currentTask;
     private CountDownTimer countDownTimer;
     private final long startTime =  1000;
     private final long interval = 1 * 1000;
     public static ArrayList<String> planets;
     private boolean CheckListDone = false;
+    private VibrationHandler mVibrationHandler;
+
     String waypoint;
 
     @Override
@@ -40,7 +43,7 @@ public class IdleScreen extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         setup();
-
+        setupVibration();
         currentTask = mTaskQueue.remove();
 
         if(currentTask != null) {
@@ -143,7 +146,7 @@ public class IdleScreen extends AppCompatActivity {
         mTaskQueue = new LinkedList<Task>();
 
         mTaskQueue.add(new Task(0, "FP", 3, true, true
-                , false, "DTW" ));
+                , false, "DTW"));
 
         mTaskQueue.add(new Task(
                 0,  //scenario
@@ -153,12 +156,12 @@ public class IdleScreen extends AppCompatActivity {
                 true,   //audio feedback
                 false,  //vibration
                 new String[]{   //checklist
-                "list one",
-                "list two",
-                "List three",
-                "List four",
-                "List five",
-                "List six"} ));
+                        "list one",
+                        "list two",
+                        "List three",
+                        "List four",
+                        "List five",
+                        "List six"}));
         mTaskQueue.add(new Task(
                 0,  //scenario
                 "CL",   //type, checklist or flight plan
@@ -172,12 +175,22 @@ public class IdleScreen extends AppCompatActivity {
                         "List ilove you",
                         "List four",
                         "List five",
-                        "List six"} ));
+                        "List six"}));
 
         mTaskQueue.add(new Task(0, "FP", 1, true, true
-                , false, "BME" ));
+                , false, "BME"));
 
 
+    }
+
+    public void setupVibration(){
+        mVibQueue = new LinkedList<>();
+
+        try {
+            mVibrationHandler.init(getApplicationContext());
+        } catch (Exception e){
+
+        }
     }
 
 }
