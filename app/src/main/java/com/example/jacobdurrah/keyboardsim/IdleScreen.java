@@ -38,20 +38,19 @@ public class IdleScreen extends AppCompatActivity {
 
         setup();
         setupVibration();
-        mVibrationHandler.changeVibration(1, 1);
-        currentTask = mTaskQueue.remove();
+        //mVibrationHandler.changeVibration(1, 9);
+        //currentTask = mTaskQueue.remove();
 
-        if(currentTask != null) {
+        //if(currentTask != null) {
             //start logging time
-            countDownTimer = new MyCountDownTimer(startTime * currentTask.getmSecondsToWait(), interval);
+            countDownTimer = new MyCountDownTimer(startTime * 101, interval);
             countDownTimer.start();
-        }
-        else
-        {
-
-            Toast.makeText(getApplicationContext(), "Error in starting task que", Toast.LENGTH_LONG)
-                    .show();
-        }
+        //}
+        //else
+        //{
+        //Toast.makeText(getApplicationContext(), "Error in starting task que", Toast.LENGTH_LONG)
+        //            .show();
+        //}
 
 
 
@@ -65,12 +64,20 @@ public class IdleScreen extends AppCompatActivity {
         @Override
         public void onFinish() {
 
-            add_Button(true);
+            //add_Button(true);
 
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
+            //Tick every second
+
+            Vibration vib = mVibQueue.remove();
+            mVibrationHandler.changeVibration(vib.getFreq(), vib.getAmplitude());
+            Toast.makeText(getApplicationContext(), "f: " + Integer.toString(vib.getFreq()) + "a: "
+                    + Integer.toString(vib.getAmplitude()), Toast.LENGTH_SHORT)
+                    .show();
+
         }
     }
         public void add_Button(boolean add)
@@ -206,12 +213,18 @@ public class IdleScreen extends AppCompatActivity {
 
         mTaskQueue.add(new Task(0, "FP", 1, true, true
                 , false, "BME"));
+        mVibQueue = new LinkedList<>();
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+                mVibQueue.add(new Vibration(i,j, "00:00:00") );
+            }
+        }
 
 
     }
 
     public void setupVibration(){
-        mVibQueue = new LinkedList<>();
+        //mVibQueue = new LinkedList<>();
         mVibrationHandler = new VibrationHandler();
         try {
             mVibrationHandler.init(getApplicationContext());

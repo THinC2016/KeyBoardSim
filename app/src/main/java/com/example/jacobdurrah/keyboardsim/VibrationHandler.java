@@ -105,12 +105,11 @@ public class VibrationHandler {
 
         boolean success = true;
 
-        if(mFreq != freq)
-            success = success && setFreq(freq);
-        if(mAmpl != ampl)
-            success = success && setAmpl(ampl);
 
-        String msg = new StringBuilder().append(RUN).append(CARR).toString();
+        success = success && setFreq(freq);
+        success = success && setAmpl(ampl);
+
+        String msg = new StringBuilder().append(RUN).toString();
 
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
@@ -124,8 +123,7 @@ public class VibrationHandler {
 
     private boolean setAmpl(int ampl){
         boolean success = true;
-        String msg = new StringBuilder().append(AMPL).append(CARR)
-                .append(ampl).append(CARR).toString();
+        String msg = new StringBuilder().append(AMPL).append(ampl).toString();
 
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
@@ -139,8 +137,7 @@ public class VibrationHandler {
 
     private boolean setFreq(int freq){
         boolean success = true;
-        String msg = new StringBuilder().append(FREQ).append(CARR)
-                .append(freq).append(CARR).toString();
+        String msg = new StringBuilder().append(FREQ).append(freq).toString();
 
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
