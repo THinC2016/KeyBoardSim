@@ -51,6 +51,7 @@ public class VibrationHandler {
     public VibrationHandler(){
         mAmpl = -1;
         mFreq = -1;
+        ctxt = null;
     }
 
     public boolean init(Context ctxt){
@@ -58,16 +59,20 @@ public class VibrationHandler {
         mUSBManager = (UsbManager) ctxt.getSystemService(Context.USB_SERVICE);
         List<UsbSerialDriver> availDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUSBManager);
         if(availDrivers.isEmpty()) {
-            Toast.makeText(ctxt, "Error in initializing scenario reader",
+            if(ctxt != null){
+                Toast.makeText(ctxt, "Error in initializing scenario reader",
                     Toast.LENGTH_LONG).show();
+            }
 
             return false;
         }
         UsbSerialDriver driver = availDrivers.get(0);
         UsbDeviceConnection cnxn = mUSBManager.openDevice(driver.getDevice());
         if(cnxn == null) {
-            Toast.makeText(ctxt, "Null connection",
+            if(ctxt != null){
+                Toast.makeText(ctxt, "Null connection",
                     Toast.LENGTH_LONG).show();
+            }
             return false;
         }
 
@@ -93,8 +98,10 @@ public class VibrationHandler {
             mFreq = -1;
         } catch (IOException e) {
             success = false;
-            Toast.makeText(ctxt, "IOError in stopVibration",
+            if(ctxt != null){
+                Toast.makeText(ctxt, "IOError in stopVibration",
                     Toast.LENGTH_LONG).show();
+            }
         }
         return success;
     }
@@ -115,8 +122,10 @@ public class VibrationHandler {
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
         } catch (IOException e) {
-            Toast.makeText(ctxt, "IOError in changeVibration",
+            if(ctxt != null){
+                Toast.makeText(ctxt, "IOError in changeVibration",
                     Toast.LENGTH_LONG).show();
+            }
             success = false;
         }
 
@@ -132,8 +141,10 @@ public class VibrationHandler {
             mPort.write(msg.getBytes(), TIMEOUT);
             mAmpl = ampl;
         } catch (IOException e){
-            Toast.makeText(ctxt, "IOError in setAmplitude",
+            if(ctxt != null){
+                Toast.makeText(ctxt, "IOError in setAmplitude",
                     Toast.LENGTH_LONG).show();
+            }
             success = false;
         }
         return success;
@@ -148,8 +159,10 @@ public class VibrationHandler {
             mPort.write(msg.getBytes(), TIMEOUT);
             mFreq = freq;
         } catch (IOException e){
-            Toast.makeText(ctxt, "IOError in setFrequency",
+            if(ctxt != null){
+                Toast.makeText(ctxt, "IOError in setFrequency",
                     Toast.LENGTH_LONG).show();
+            }
             success = false;
         }
         return success;
