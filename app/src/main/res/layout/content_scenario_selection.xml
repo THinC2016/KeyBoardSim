@@ -33,7 +33,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="set vibration activity"
         android:id="@+id/button5"
         android:onClick="startVibrationSetActivity"
         android:layout_alignParentBottom="true"
