@@ -111,13 +111,18 @@ public class ScenarioSelection extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-        //TODO: convert clickedItems to a list
 
         Intent intent = new Intent(this, CountDown.class);
         intent.putExtra(BUNDLE_SCENARIO_KEY, clickedItems.remove(0));
         startActivity(intent);
 
 
+    }
+
+    public void startVibrationSetActivity(View view)
+    {
+        Intent intent = new Intent(this, VibrationSetActivity.class);
+        startActivity(intent);
     }
 
 
