@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,8 +47,24 @@ public class ScenarioSelection extends AppCompatActivity {
         listAdapter.add("Scenario 2");
         listAdapter.add("Scenario 3");
         listAdapter.add("Scenario 4");
-        mainListView.setAdapter( listAdapter );
+        mainListView.setAdapter(listAdapter);
 
+        Button addButton = new Button(this);
+
+        LinearLayout mainLayout = (LinearLayout) View.inflate(getApplicationContext(),
+                R.layout.activity_scenario_selection, null);
+        addButton.setId(0);
+        addButton.setText("Set vibrations");
+
+
+        final Intent thisi = new Intent(this, VibrationSetActivity.class);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(thisi);
+            }
+        });
+        mainLayout.addView(addButton);
     }
 
     public void scenarioCLicked(View view) {

@@ -216,7 +216,7 @@ public class IdleScreen extends AppCompatActivity {
         mVibQueue = new LinkedList<>();
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
-                mVibQueue.add(new Vibration(i,j, "00:00:00") );
+                mVibQueue.add(new Vibration(4,j, "00:00:00") );
             }
         }
 
