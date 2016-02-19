@@ -49,22 +49,6 @@ public class ScenarioSelection extends AppCompatActivity {
         listAdapter.add("Scenario 4");
         mainListView.setAdapter(listAdapter);
 
-        Button addButton = new Button(this);
-
-        LinearLayout mainLayout = (LinearLayout) View.inflate(getApplicationContext(),
-                R.layout.activity_scenario_selection, null);
-        addButton.setId(0);
-        addButton.setText("Set vibrations");
-
-
-        final Intent thisi = new Intent(this, VibrationSetActivity.class);
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(thisi);
-            }
-        });
-        mainLayout.addView(addButton);
     }
 
     public void scenarioCLicked(View view) {
@@ -121,7 +105,7 @@ public class ScenarioSelection extends AppCompatActivity {
 
     public void startVibrationSetActivity(View view)
     {
-        Intent intent = new Intent(this, VibrationSetActivity.class);
+        Intent intent = new Intent(this, VibrationSetActivity2.class);
         startActivity(intent);
     }
 
