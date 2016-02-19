@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,19 +39,20 @@ public class IdleScreen extends AppCompatActivity {
 
         setup();
         setupVibration();
-        //mVibrationHandler.changeVibration(1, 9);
-        //currentTask = mTaskQueue.remove();
 
-        //if(currentTask != null) {
+        //remove the first task
+        currentTask = mTaskQueue.remove();
+
+        if(currentTask != null) {
             //start logging time
-            countDownTimer = new MyCountDownTimer(startTime * 404, 4*interval);
+            countDownTimer = new MyCountDownTimer(startTime * currentTask.getmSecondsToWait(),interval);
             countDownTimer.start();
-        //}
-        //else
-        //{
-        //Toast.makeText(getApplicationContext(), "Error in starting task que", Toast.LENGTH_LONG)
-        //            .show();
-        //}
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Error in starting task que", Toast.LENGTH_LONG)
+                   .show();
+        }
 
 
 
@@ -64,7 +66,7 @@ public class IdleScreen extends AppCompatActivity {
         @Override
         public void onFinish() {
 
-            //add_Button(true);
+            add_Button(true); //add a button that will be used to start task to the idle screen
 
         }
 
@@ -72,14 +74,17 @@ public class IdleScreen extends AppCompatActivity {
         public void onTick(long millisUntilFinished) {
             //Tick every second
 
-            Vibration vib = mVibQueue.remove();
+    /*        Vibration vib = mVibQueue.remove();
             mVibrationHandler.changeVibration(vib.getFreq(), vib.getAmplitude());
             Toast.makeText(getApplicationContext(), "f: " + Integer.toString(vib.getFreq()) + "a: "
                     + Integer.toString(vib.getAmplitude()), Toast.LENGTH_SHORT)
                     .show();
 
+                    */
+
         }
     }
+        //used in MyCountDownTimer.onFInish - adds a button to the idle screen for starting task
         public void add_Button(boolean add)
         {
             LinearLayout mainLayout = (LinearLayout)findViewById(R.id.idle_layout);
@@ -106,8 +111,13 @@ public class IdleScreen extends AppCompatActivity {
             }
 
         }
+    //used in idle screen. Called when button on idle screen is pushed
     public void startTask()
     {
+        //start vibration
+        //currentTask.amp , //currentTask.freq
+        mVibrationHandler.changeVibration(currentTask.getMvibration_freq(),currentTask.getMvibration_amp());
+
         if(currentTask.getType() == "CL")
         {
             //start next activity
@@ -123,10 +133,13 @@ public class IdleScreen extends AppCompatActivity {
 
     }
 
+    //called when task is completed. If all task done displays Done to idle screen
     @Override
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
 
+        //stop vibration
+       mVibrationHandler.stopVibration();
         // Activity being restarted from stopped state
         countDownTimer.cancel();
         if(currentTask != null) {
@@ -136,7 +149,11 @@ public class IdleScreen extends AppCompatActivity {
         }
         else
         {
-            finish();
+            //Change idle screen to show Experiment Complete
+            LinearLayout mainLayout = (LinearLayout)findViewById(R.id.idle_layout);
+            TextView ExperimentComplete = new TextView(this);
+            ExperimentComplete.setText("Experiment Complete");
+            mainLayout.addView(ExperimentComplete);
         }
     }
 
@@ -167,8 +184,7 @@ public class IdleScreen extends AppCompatActivity {
         if(!mTaskQueue.isEmpty()) {
             currentTask = mTaskQueue.remove();
         }
-        else
-        {
+        else {
             currentTask = null;
         }
         startActivity(intent);
@@ -180,7 +196,7 @@ public class IdleScreen extends AppCompatActivity {
         mTaskQueue = new LinkedList<Task>();
 
         mTaskQueue.add(new Task(0, "FP", 3, true, true
-                , false, "DTW"));
+                , false, 2,2,"DTW"));
 
         mTaskQueue.add(new Task(
                 0,  //scenario
@@ -189,6 +205,8 @@ public class IdleScreen extends AppCompatActivity {
                 true,   //visual feedback
                 true,   //audio feedback
                 false,  //vibration
+                2,      //vibration amp
+                2,      //vibration freq
                 new String[]{   //checklist
                         "list one",
                         "list two",
@@ -203,6 +221,8 @@ public class IdleScreen extends AppCompatActivity {
                 true,   //visual feedback
                 true,   //audio feedback
                 false,  //vibration
+                2,      //vibration amp
+                2,      //vibration freq
                 new String[]{   //checklist
                         "list hello",
                         "list world",
@@ -212,13 +232,16 @@ public class IdleScreen extends AppCompatActivity {
                         "List six"}));
 
         mTaskQueue.add(new Task(0, "FP", 1, true, true
-                , false, "BME"));
+                , false,2,2, "BME"));
+
+        /*
         mVibQueue = new LinkedList<>();
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
                 mVibQueue.add(new Vibration(4,j, "00:00:00") );
             }
         }
+        */
 
 
     }
