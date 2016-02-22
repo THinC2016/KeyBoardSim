@@ -40,6 +40,7 @@ public class VibrationHandler {
     private static final char RUN           = 'r';
     private static final char FREQ          = 'f';
     private static final char AMPL          = 'a';
+    private static final char RAND          = 'z';
     private static final char CARR          = '\r';
 
     private static final String LOG_TAG     = "VibrationHandler";
@@ -121,6 +122,21 @@ public class VibrationHandler {
         return success;
     }
 
+    public boolean vibrateRandom(){
+        boolean success = true;
+
+        String msg = new StringBuilder().append(RAND).append(RUN).toString();
+
+        try {
+            mPort.write(msg.getBytes(), TIMEOUT);
+        } catch (IOException e) {
+            Log.i(LOG_TAG, "IOError in vibrateRandom");
+            success = false;
+        }
+
+        return success;
+    }
+
     private boolean setAmpl(int ampl){
         boolean success = true;
         String msg = new StringBuilder().append(AMPL).append(ampl).toString();
@@ -148,4 +164,6 @@ public class VibrationHandler {
         }
         return success;
     }
+
+
 }
