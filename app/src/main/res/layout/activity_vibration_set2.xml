@@ -40,5 +40,13 @@
         android:id="@+id/button7"
         android:layout_gravity="right" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Random Vibration"
+        android:id="@+id/button5"
+        android:layout_gravity="right"
+        android:onClick="startVibrationRandom_onClick"/>
+
 
 </LinearLayout>

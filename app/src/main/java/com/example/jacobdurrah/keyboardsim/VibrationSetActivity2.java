@@ -45,4 +45,9 @@ public class VibrationSetActivity2 extends Activity {
 
     }
 
+    public void startVibrationRandom_onClick()
+    {
+        mVibrationHandler.vibrateRandom();
+    }
+
 }
