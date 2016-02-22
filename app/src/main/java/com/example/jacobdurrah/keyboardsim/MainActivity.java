@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         if(Vib_connected_toggle)
         {
             Context context = getApplicationContext();
-            CharSequence text = "switch on";
+            CharSequence text = "switch off";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         else {
 
             Context context = getApplicationContext();
-            CharSequence text = "switch off";
+            CharSequence text = "switch on";
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();

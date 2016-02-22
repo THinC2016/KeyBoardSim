@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:hint="@string/edit_message"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:imeOptions="flagNoExtractUi"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -35,7 +36,8 @@
         android:onClick="setVibrationStatus"
         android:layout_below="@+id/button2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp" />
+        android:layout_marginTop="72dp"
+        android:checked="true"/>
 
 
 </RelativeLayout>

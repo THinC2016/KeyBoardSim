@@ -152,10 +152,14 @@ public class IdleScreen extends AppCompatActivity {
         else
         {
             //Change idle screen to show Experiment Complete
+            //clear all buttons
+            add_Button(false);
             LinearLayout mainLayout = (LinearLayout)findViewById(R.id.idle_layout);
             TextView ExperimentComplete = new TextView(this);
             ExperimentComplete.setText("Experiment Complete");
+            ExperimentComplete.setTextSize(40);
             mainLayout.addView(ExperimentComplete);
+
         }
     }
 
