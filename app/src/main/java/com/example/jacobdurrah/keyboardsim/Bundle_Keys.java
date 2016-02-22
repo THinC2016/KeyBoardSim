@@ -13,4 +13,5 @@ public class Bundle_Keys {
 
     public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
     public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
+    public final static String BUNDLE_Vibration_Status_KEY = "VIBRATION_STATUS";
 }

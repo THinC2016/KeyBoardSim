@@ -21,9 +21,13 @@ public class Task {
     private boolean mVisualFeedBack;
     private boolean mAudioFeedBack;
     private boolean mVibration;
+    private int  mvibration_amp;
+    private int  mvibration_freq;
+    private int check_list_way_point_number;
+    private boolean mAutopilot;
 
-    public Task(int scen, String type, int secondsToWait, boolean visualFeedBack, boolean audioFeedBack
-                , boolean vibration, String waypoint ){//waypoint constructor
+    public Task(int scen, int num, boolean auto, String type, int secondsToWait, boolean visualFeedBack, boolean audioFeedBack
+                , boolean vibration, int vibration_amp , int vibration_freq, String waypoint){//waypoint constructor
         mScenario = scen;
         mType = type;
         mSecondsToWait = secondsToWait;//number of seconds after previous task completed
@@ -31,12 +35,16 @@ public class Task {
         mVibration = vibration;
         mVisualFeedBack = visualFeedBack;
         mAudioFeedBack = audioFeedBack;
+        mvibration_amp = vibration_amp;
+        mvibration_freq = vibration_freq;
+        check_list_way_point_number = num;
+        mAutopilot = auto;
 
 
 
     }
-    public Task(int scen, String type, int secondsToWait, boolean visualFeedBack, boolean audioFeedBack
-            , boolean vibration, String[] checkList){//checklist constructor
+    public Task(int scen, int num, boolean auto, String type, int secondsToWait, boolean visualFeedBack, boolean audioFeedBack
+            , boolean vibration, int vibration_amp , int vibration_freq, String[] checkList){//checklist constructor
         mScenario = scen;
         mType = type;
         mSecondsToWait = secondsToWait;//number of seconds after previous task completed
@@ -44,20 +52,21 @@ public class Task {
         mVibration = vibration;
         mVisualFeedBack = visualFeedBack;
         mAudioFeedBack = audioFeedBack;
+        mvibration_amp = vibration_amp;
+        mvibration_freq = vibration_freq;
+        check_list_way_point_number = num;
+        mAutopilot = auto;
+
 
     }
-    public Task(String type, int secondsToWait, boolean vibration){//waypoint constructor
-        mType = type;
-        mSecondsToWait = secondsToWait;//number of seconds after previous task completed
-    }
 
-    public int getScenario(){
-        return mScenario;
-    }
 
-    public String getType(){
-        return mType;
-    }
+    public int getScenario(){return mScenario;}
+    public boolean getmAutopilot(){return mAutopilot;}
+    public  int getCheck_list_way_point_number(){return check_list_way_point_number;}
+    public int getMvibration_amp(){return mvibration_amp;}
+    public int getMvibration_freq(){return mvibration_freq;}
+    public String getType(){return mType;}
     public int getmSecondsToWait(){
         return mSecondsToWait;
     }
@@ -76,4 +85,6 @@ public class Task {
     public boolean getmVibration(){
         return mVibration;
     }
+
+
 }

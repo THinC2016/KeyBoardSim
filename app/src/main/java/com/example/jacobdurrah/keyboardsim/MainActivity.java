@@ -16,7 +16,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 /*
 import com.google.android.gms.appindexing.Action;
@@ -61,13 +63,15 @@ public class MainActivity extends AppCompatActivity {
     public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
     public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
 
+    public static boolean Vib_connected_toggle = true;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         // setup();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
     }
 
@@ -125,7 +129,34 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.participant_id);
         String participantId = editText.getText().toString();
         intent.putExtra(BUNDLE_PARTICIPANT_KEY, participantId);
+        intent.putExtra(Bundle_Keys.BUNDLE_Vibration_Status_KEY, Vib_connected_toggle);
         startActivity(intent);
+    }
+
+    //used with toggle button on main screen. turns virbation on or off depending on rather
+    //or not tablet is connected to the vibrator
+    public void setVibrationStatus(View view)
+    {
+        Switch vib_connected_toggle = (Switch) findViewById(R.id.switch1);
+        if(Vib_connected_toggle)
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "switch off";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            Vib_connected_toggle = false;
+        }
+        else {
+
+            Context context = getApplicationContext();
+            CharSequence text = "switch on";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            Vib_connected_toggle = true;
+        }
+
     }
 
     /*
