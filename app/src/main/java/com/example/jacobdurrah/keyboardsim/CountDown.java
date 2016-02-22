@@ -16,15 +16,14 @@ public class CountDown extends AppCompatActivity {
     private boolean timerHasStarted = false;
     private Button startB;
     public TextView text;
-    private final long startTime = 2 * 1000;
+    private final long startTime = 10 * 1000;
     private final long interval = 1 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_count_down);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
 
         text = (TextView) this.findViewById(R.id.timer);
@@ -68,6 +67,7 @@ public class CountDown extends AppCompatActivity {
 
     public void startIdleActivity() {
         Intent intent = new Intent(this, IdleScreen.class);
+        intent.putExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, getIntent().getStringArrayExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY));
         startActivity(intent);
     }
 

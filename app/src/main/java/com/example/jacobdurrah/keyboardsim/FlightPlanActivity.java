@@ -39,8 +39,7 @@ public class FlightPlanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -90,20 +89,21 @@ public class FlightPlanActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
                 TextView changed = (TextView) findViewById(R.id.textView);
                 //changed.setText(Long.toString(System.currentTimeMillis()));
                 String newChar = Util.getNewCharacter(oldText, s.toString());
                 //.setText(newChar);
+                String f =  s.toString();
                 oldText = newChar;
                 if(audioFeedBack) {
                     t1.speak(newChar, TextToSpeech.QUEUE_FLUSH, null, null);
                 }
                 FileUtil.appendStringToFile(Long.toString(System.currentTimeMillis()) + "," + newChar , file);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

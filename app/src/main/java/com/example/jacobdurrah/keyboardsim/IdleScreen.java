@@ -34,11 +34,11 @@ public class IdleScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idle_screen);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         setup();
-        setupVibration();
+        if(MainActivity.Vib_connected_toggle)
+            setupVibration();
 
         //remove the first task
         currentTask = mTaskQueue.remove();
@@ -116,7 +116,8 @@ public class IdleScreen extends AppCompatActivity {
     {
         //start vibration
         //currentTask.amp , //currentTask.freq
-        mVibrationHandler.changeVibration(currentTask.getMvibration_freq(),currentTask.getMvibration_amp());
+        if(MainActivity.Vib_connected_toggle)
+            mVibrationHandler.changeVibration(currentTask.getMvibration_freq(),currentTask.getMvibration_amp());
 
         if(currentTask.getType() == "CL")
         {
@@ -139,7 +140,8 @@ public class IdleScreen extends AppCompatActivity {
         super.onRestart();  // Always call the superclass method first
 
         //stop vibration
-       mVibrationHandler.stopVibration();
+        if(MainActivity.Vib_connected_toggle)
+            mVibrationHandler.stopVibration();
         // Activity being restarted from stopped state
         countDownTimer.cancel();
         if(currentTask != null) {
@@ -194,55 +196,545 @@ public class IdleScreen extends AppCompatActivity {
     public void setup()
     {
         mTaskQueue = new LinkedList<Task>();
+//scenario1
 
-        mTaskQueue.add(new Task(0, "FP", 3, true, true
-                , false, 2,2,"DTW"));
+        if(ScenarioSelection.selectedScenario.equals("Scenario 1")) {
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    1,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "STALL LIGHT ............... OFF",
+                            "TERRAIN LIGHT ............. OFF",
+                            "MASTER WARNING ............ OFF",
+                            "FLAPS ..................... UP"}));
 
-        mTaskQueue.add(new Task(
-                0,  //scenario
-                "CL",   //type, checklist or flight plan
-                4,      //seconds to wait after previous task complete
-                true,   //visual feedback
-                true,   //audio feedback
-                false,  //vibration
-                2,      //vibration amp
-                2,      //vibration freq
-                new String[]{   //checklist
-                        "list one",
-                        "list two",
-                        "List three",
-                        "List four",
-                        "List five",
-                        "List six"}));
-        mTaskQueue.add(new Task(
-                0,  //scenario
-                "CL",   //type, checklist or flight plan
-                10,      //seconds to wait after previous task complete
-                true,   //visual feedback
-                true,   //audio feedback
-                false,  //vibration
-                2,      //vibration amp
-                2,      //vibration freq
-                new String[]{   //checklist
-                        "list hello",
-                        "list world",
-                        "List  you",
-                        "List four",
-                        "List five",
-                        "List six"}));
+            mTaskQueue.add(new Task(1, 1, true, "FP", 90, false, false
+                    , false, 9, 3, "TAMEV"));
 
-        mTaskQueue.add(new Task(0, "FP", 1, true, true
-                , false,2,2, "BME"));
+            mTaskQueue.add(new Task(1, 2, true, "FP", 90, false, false
+                    , true, 9, 3, "BNEOG"));
 
-        /*
-        mVibQueue = new LinkedList<>();
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
-                mVibQueue.add(new Vibration(4,j, "00:00:00") );
-            }
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    2,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "HDG SEL MODE .............. ON",
+                            "AP DISCON ................. OFF",
+                            "PITOT HEAT ................ OFF",
+                            "MASTER CAUTION ............ OFF",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    3,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "ICE DETECT ................ OFF",
+                            "THRUST LEVELS ............. BALANCED",
+                            "SPEED BRAKES .............. RETRACTED"}));
+
+            mTaskQueue.add(new Task(1, 3, true, "FP", 90, false, true
+                    , false, 9, 3, "PAVQK"));
+
+            mTaskQueue.add(new Task(1, 4, true, "FP", 90, false, true
+                    , true, 9, 3, "WUPSK"));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    4,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALTIMETER ................. STD",
+                            "STALL LIGHT ............... OFF",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "HYDR. PRESS. .............. BALANCED",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    5,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "TERRAIN LIGHT ............. OFF",
+                            "PITOT HEAT ................ OFF",
+                            "N1 vs. N1 LIMIT ........... CHECK",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(1, 5, true, "FP", 90, true, false
+                    , false, 9, 3, "TEOZU"));
+
+            mTaskQueue.add(new Task(1, 6, true, "FP", 90, true, false
+                    , true, 9, 3, "LYZOC"));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    6,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "HDG SEL MODE .............. ON",
+                            "PITOT HEAT ................ OFF",
+                            "ICE DETECT ................ OFF",
+                            "MASTER WARNING ............ OFF",
+                            "SPEED BRAKES .............. RETRACTED"}));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    7,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "AP DISCON ................. OFF",
+                            "STALL LIGHT ............... OFF",
+                            "THRUST LEVELS ............. BALANCED",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(1, 7, false, "FP", 90, true, false
+                    , false, 9, 3, "DIFEO"));
+
+            mTaskQueue.add(new Task(1, 8, false, "FP", 90, true, false
+                    , true, 9, 3, "KENJS"));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    8,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALTIMETER ................. STD",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "TERRAIN LIGHT ............. OFF",
+                            "N1 vs. N1 LIMI............. CHECK",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    9,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "STALL LIGHT ............... OFF", "TERRAIN LIGHT ............. OFF",
+                            "MASTER CAUTION ............ OFF",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(1, 9, false, "FP", 90, false, true
+                    , false, 9, 3, "WOAGM"));
+
+            mTaskQueue.add(new Task(1, 10, false, "FP", 90, false, true
+                    , true, 9, 3, "ROZIT"));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    10,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "HDG SEL MODE .............. ON",
+                            "AP DISCON ................. OFF",
+                            "PITOT HEAT ................ OFF",
+                            "HYDR. PRESS. .............. BALANCED",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    11,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "AP DISCON ................. OFF",
+                            "MASTER WARNING ............ OFF",
+                            "SPEED BRAKES .............. RETRACTED"}));
+
+            mTaskQueue.add(new Task(1, 11, false, "FP", 90, false, false
+                    , false, 9, 3, "EYMAO"));
+
+            mTaskQueue.add(new Task(1, 12, false, "FP", 90, false, false
+                    , true, 9, 3, "LFQIX"));
+
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    12,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "ALTIMETER ................. STD",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "ICE DETECT ................ OFF",
+                            "N1 vs. N1 LIMIT ........... CHECK",
+                            "FLAPS ..................... UP"}));
+
+
         }
-        */
 
+
+
+//scenario2
+else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    1,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "STALL LIGHT ............... OFF",
+                            "TERRAIN LIGHT ............. OFF",
+                            "MASTER WARNING ............ OFF",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(2, 1, false, "FP", 90, false, false
+                    , true, 9, 3, "TAMEV"));
+
+            mTaskQueue.add(new Task(1, 2, false, "FP", 90, false, false
+                    , false, 9, 3, "BNEOG"));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    2,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "HDG SEL MODE .............. ON",
+                            "AP DISCON ................. OFF",
+                            "PITOT HEAT ................ OFF",
+                            "MASTER CAUTION ............ OFF",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    3,     //Check list number
+                    false,  //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "ICE DETECT ................ OFF",
+                            "THRUST LEVELS ............. BALANCED",
+                            "SPEED BRAKES .............. RETRACTED"}));
+
+            mTaskQueue.add(new Task(2, 3, false, "FP", 90, false, true
+                    , true, 9, 3, "PAVQK"));
+
+            mTaskQueue.add(new Task(1, 4, false, "FP", 90, false, true
+                    , false, 9, 3, "WUPSK"));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    4,        //Check list number
+                    false,    //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALTIMETER ................. STD",
+                            "STALL LIGHT ............... OFF",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "HYDR. PRESS. .............. BALANCED",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    5,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "TERRAIN LIGHT ............. OFF",
+                            "PITOT HEAT ................ OFF",
+                            "N1 vs. N1 LIMIT ........... CHECK",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(2, 5, false, "FP", 90, true, false
+                    , true, 9, 3, "TEOZU"));
+
+            mTaskQueue.add(new Task(2, 6, false, "FP", 90, true, false
+                    , false, 9, 3, "LYZOC"));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    6,     //Check list number
+                    false,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "HDG SEL MODE .............. ON",
+                            "PITOT HEAT ................ OFF",
+                            "ICE DETECT ................ OFF",
+                            "MASTER WARNING ............ OFF",
+                            "SPEED BRAKES .............. RETRACTED"}));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    7,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "AP DISCON ................. OFF",
+                            "STALL LIGHT ............... OFF",
+                            "THRUST LEVELS ............. BALANCED",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(2, 7, true, "FP", 90, true, false
+                    , true, 9, 3, "DIFEO"));
+
+            mTaskQueue.add(new Task(2, 8, true, "FP", 90, true, false
+                    , false, 9, 3, "KENJS"));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    8,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    true,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALTIMETER ................. STD",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "TERRAIN LIGHT ............. OFF",
+                            "N1 vs. N1 LIMI............. CHECK",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    9,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "STALL LIGHT ............... OFF", "TERRAIN LIGHT ............. OFF",
+                            "MASTER CAUTION ............ OFF",
+                            "THRUST REVERSE ............ DISENGAGED"}));
+
+            mTaskQueue.add(new Task(2, 9, true, "FP", 90, false, true
+                    , true, 9, 3, "WOAGM"));
+
+            mTaskQueue.add(new Task(2, 10, true, "FP", 90, false, true
+                    , false, 9, 3, "ROZIT"));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    10,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    true,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "HDG SEL MODE .............. ON",
+                            "AP DISCON ................. OFF",
+                            "PITOT HEAT ................ OFF",
+                            "HYDR. PRESS. .............. BALANCED",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    11,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    false,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "AP DISCON ................. OFF",
+                            "MASTER WARNING ............ OFF",
+                            "SPEED BRAKES .............. RETRACTED"}));
+
+            mTaskQueue.add(new Task(2, 11, false, "FP", 90, true, false
+                    , true, 9, 3, "EYMAO"));
+
+            mTaskQueue.add(new Task(2, 12, false, "FP", 90, true, false
+                    , false, 9, 3, "LFQIX"));
+
+            mTaskQueue.add(new Task(
+                    2,      //scenario
+                    12,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    90,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "ALT MODE .................. ON",
+                            "ALTIMETER ................. STD",
+                            "LOW FUEL LIGHT ............ OFF",
+                            "ICE DETECT ................ OFF",
+                            "N1 vs. N1 LIMIT ........... CHECK",
+                            "FLAPS ..................... UP"}));
+        }
+        else
+        {
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    1,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    5,      //seconds to wait after previous task complete
+                    false,   //visual feedback
+                    false,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "STALL LIGHT ............... OFF",
+                            "TERRAIN LIGHT ............. OFF",
+                            "MASTER WARNING ............ OFF",
+                            "FLAPS ..................... UP"}));
+
+            mTaskQueue.add(new Task(1, 1, true, "FP", 10, false, false
+                    , false, 9, 3, "TAMEV"));
+
+
+        }
 
     }
 

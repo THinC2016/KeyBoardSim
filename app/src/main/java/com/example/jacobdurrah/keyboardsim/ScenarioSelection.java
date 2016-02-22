@@ -25,18 +25,18 @@ import java.util.Map;
 
 
 public class ScenarioSelection extends AppCompatActivity {
-    public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
+
     private ListView mainListView ;
     private ArrayAdapter<String> listAdapter ;
 
     private List<String> clickedItems;
+    public static  String selectedScenario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scenario_selection);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         clickedItems = new ArrayList<>();
 
         // Find the ListView resource.
@@ -45,8 +45,8 @@ public class ScenarioSelection extends AppCompatActivity {
         listAdapter = new ArrayAdapter<String>(this, R.layout.simple_row_scenario);
         listAdapter.add("Scenario 1");
         listAdapter.add("Scenario 2");
-        listAdapter.add("Scenario 3");
-        listAdapter.add("Scenario 4");
+        listAdapter.add("Example");
+
         mainListView.setAdapter(listAdapter);
 
     }
@@ -97,7 +97,8 @@ public class ScenarioSelection extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, CountDown.class);
-        intent.putExtra(BUNDLE_SCENARIO_KEY, clickedItems.remove(0));
+        //intent.putExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, clickedItems.remove(0));
+        selectedScenario =  clickedItems.remove(0);
         startActivity(intent);
 
 
