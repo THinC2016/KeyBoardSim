@@ -723,6 +723,23 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     "CL",   //type, checklist or flight plan
                     5,      //seconds to wait after previous task complete
                     false,   //visual feedback
+                    true,   //audio feedback
+                    true,  //vibration
+                    9,      //vibration amp
+                    3,      //vibration freq
+                    new String[]{   //checklist
+                            "SPD MODE .................. ON",
+                            "STALL LIGHT ............... OFF",
+                            "TERRAIN LIGHT ............. OFF",
+                            "MASTER WARNING ............ OFF",
+                            "FLAPS ..................... UP"}));
+            mTaskQueue.add(new Task(
+                    1,      //scenario
+                    1,     //Check list number
+                    true,   //autopilot (true, fals
+                    "CL",   //type, checklist or flight plan
+                    5,      //seconds to wait after previous task complete
+                    true,   //visual feedback
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
@@ -735,6 +752,8 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "FLAPS ..................... UP"}));
 
             mTaskQueue.add(new Task(1, 1, true, "FP", 10, false, false
+                    , false, 9, 3, "TAMEV"));
+            mTaskQueue.add(new Task(1, 1, true, "FP", 10, false, true
                     , false, 9, 3, "TAMEV"));
 
 
