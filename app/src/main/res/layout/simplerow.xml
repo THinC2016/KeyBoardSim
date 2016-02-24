@@ -6,6 +6,7 @@
     android:textSize="32sp"
     android:onClick="readText"
     android:background="@drawable/label_bg"
-    android:checkMark="?android:attr/listChoiceIndicatorMultiple">
+    android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+    android:checkMarkTint="#4CAF50">
 
 </CheckedTextView>

@@ -1,6 +1,8 @@
 package com.example.jacobdurrah.keyboardsim;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -104,6 +106,9 @@ public class IdleScreen extends AppCompatActivity {
                 });
 
                 mainLayout.addView(addButton);
+                // send the tone to the "alarm" stream (classic beeps go there) with 50% volume
+                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
+                toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
             }
             else
             {
