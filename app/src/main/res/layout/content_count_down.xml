@@ -20,7 +20,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:paddingRight="10dip"
-        android:textSize="50dp">
+        android:textSize="50dp"
+        android:hint="TImer">
 
     </TextView>
 
@@ -30,6 +31,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="Start"
+        android:id = "@+id/button"
+        android:onClick="Click"
         />
 
 </RelativeLayout>

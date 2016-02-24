@@ -16,13 +16,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
-
+/*
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
-
+*/
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,21 +62,17 @@ public class MainActivity extends AppCompatActivity {
 
     public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
     public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+
+    public static boolean Vib_connected_toggle = true;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        setup();
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
+        // setup();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
     }
 
     @Override
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
     }
 
@@ -126,6 +124,42 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void startScenarioSelectionActivity(View view) {
+        Intent intent = new Intent(this, ScenarioSelection.class);
+        EditText editText = (EditText) findViewById(R.id.participant_id);
+        String participantId = editText.getText().toString();
+        intent.putExtra(BUNDLE_PARTICIPANT_KEY, participantId);
+        intent.putExtra(Bundle_Keys.BUNDLE_Vibration_Status_KEY, Vib_connected_toggle);
+        startActivity(intent);
+    }
+
+    //used with toggle button on main screen. turns virbation on or off depending on rather
+    //or not tablet is connected to the vibrator
+    public void setVibrationStatus(View view)
+    {
+        Switch vib_connected_toggle = (Switch) findViewById(R.id.switch1);
+        if(Vib_connected_toggle)
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "switch off";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            Vib_connected_toggle = false;
+        }
+        else {
+
+            Context context = getApplicationContext();
+            CharSequence text = "switch on";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            Vib_connected_toggle = true;
+        }
+
+    }
+
+    /*
 
     //Handle private member initialization and callback registration for async callbacks
     private void setup() {
@@ -248,55 +282,17 @@ public class MainActivity extends AppCompatActivity {
         Date cur;
         Date next;
         try {
-            cur = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
-            next = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
+          //TODO: Fix broken cur = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
+          //TODO:Fix broken  next = new SimpleDateFormat("HH:mm:ss").parse(thisTask.getStartTime());
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "Error in parsing vibration time", Toast.LENGTH_LONG)
                     .show();
             return;
         }
-        long diff = next.getTime() - cur.getTime();
-        mNextTaskAlarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
-                diff, mTaskIntent);
+       //TODO: Fix Broken long diff = next.getTime() - cur.getTime();
+     //   mNextTaskAlarm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() +
+//                diff, mTaskIntent);
     }
+    */
 
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.jacobdurrah.keyboardsim/http/host/path")
-        );
-        AppIndex.AppIndexApi.start(client, viewAction);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
-                Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
-                Uri.parse("android-app://com.example.jacobdurrah.keyboardsim/http/host/path")
-        );
-        AppIndex.AppIndexApi.end(client, viewAction);
-        client.disconnect();
-    }
 }

@@ -1,5 +1,6 @@
 package com.example.jacobdurrah.keyboardsim;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
@@ -22,19 +23,19 @@ public class CountDown extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_count_down);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        startB = (Button) this.findViewById(R.id.button);
-        startB.setOnClickListener((View.OnClickListener) this);//may be a problem
+
+
         text = (TextView) this.findViewById(R.id.timer);
         countDownTimer = new MyCountDownTimer(startTime, interval);
         text.setText(text.getText() + String.valueOf(startTime / 1000));
 
+
     }
 
-    //@Override
-    public void onClick(View v) {
+
+    public void Click(View v) {
+        startB = (Button) v;
         if (!timerHasStarted) {
             countDownTimer.start();
             timerHasStarted = true;
@@ -55,6 +56,7 @@ public class CountDown extends AppCompatActivity {
         public void onFinish() {
             text.setText("SIM Starting");
             //start next activity
+            startIdleActivity();
         }
 
         @Override
@@ -63,5 +65,15 @@ public class CountDown extends AppCompatActivity {
         }
     }
 
+    public void startIdleActivity() {
+        Intent intent = new Intent(this, IdleScreen.class);
+        intent.putExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, getIntent().getStringArrayExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY));
+        startActivity(intent);
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+    }
 }

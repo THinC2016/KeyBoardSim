@@ -4,55 +4,58 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Environment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 
 
 public class ScenarioSelection extends AppCompatActivity {
-    public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
+
     private ListView mainListView ;
     private ArrayAdapter<String> listAdapter ;
 
-    private Map clickedItems;
+    private List<String> clickedItems;
+    public static  String selectedScenario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scenario_selection);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        clickedItems = new ArrayList<>();
 
         // Find the ListView resource.
         mainListView = (ListView) findViewById( R.id.listScenarios );
 
-        listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow);
+        listAdapter = new ArrayAdapter<String>(this, R.layout.simple_row_scenario);
+        listAdapter.add("Scenario 1");
+        listAdapter.add("Scenario 2");
+        listAdapter.add("Example");
 
-        //Get a list of all names in folder ___ that contain the value val in the filename
-        listAdapter.addAll(FileUtil.getFileNamesInFolderContainVal("examFolder", "example"));
-        // Set the ArrayAdapter as the ListView's adapter.
-        mainListView.setAdapter( listAdapter );
+        mainListView.setAdapter(listAdapter);
 
     }
 
-    public void startSimActivity(View view) {
+    public void scenarioCLicked(View view) {
         TextView textView = (TextView) view;
         String scenarioFileName = textView.getText().toString();
 
-        if(clickedItems.size() >=1 && !clickedItems.containsKey(scenarioFileName))
+        if(clickedItems.size() >=1 && !clickedItems.contains(scenarioFileName))
         {
             Context context = getApplicationContext();
             CharSequence text = "Only one Scenario can be checked!";
@@ -61,7 +64,7 @@ public class ScenarioSelection extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
-        else if(clickedItems.containsKey(scenarioFileName))
+        else if(clickedItems.contains(scenarioFileName))
         {
             clickedItems.remove(scenarioFileName);
 
@@ -70,7 +73,7 @@ public class ScenarioSelection extends AppCompatActivity {
         else
         {
             ((TextView) view).setBackgroundColor(Color.parseColor("#008000")); // custom
-            clickedItems.put(scenarioFileName, 1);
+            clickedItems.add(scenarioFileName);
         }
     }
 
@@ -82,14 +85,29 @@ public class ScenarioSelection extends AppCompatActivity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-
+            return;
         }
-        String Scenario_ID = (String)clickedItems.entrySet().iterator().next();
+        else if(clickedItems.size() > 1)
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "Too many Scenarios selected";
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
         Intent intent = new Intent(this, CountDown.class);
-        intent.putExtra(BUNDLE_SCENARIO_KEY, Scenario_ID);
+        //intent.putExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, clickedItems.remove(0));
+        selectedScenario =  clickedItems.remove(0);
         startActivity(intent);
 
 
+    }
+
+    public void startVibrationSetActivity(View view)
+    {
+        Intent intent = new Intent(this, VibrationSetActivity2.class);
+        startActivity(intent);
     }
 
 

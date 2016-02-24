@@ -10,4 +10,6 @@
     <string name="title_activity_scenarior_selection">ScenariorSelection</string>
     <string name="title_activity_scenario_selection">ScenarioSelection</string>
     <string name="title_activity_count_down">CountDown</string>
+    <string name="title_activity_idle_screen">IdleScreen</string>
+    <string name="title_activity_vibration_set2">VibrationSetActivity2</string>
 </resources>

@@ -55,7 +55,7 @@ public class FlightScenarioReader {
         }
         return doc;
     }
-
+/*
     //Reads the entirety of the XML scenario into vibrationEvents and taskEvents
     public void updateQueues(Queue<Vibration> vibrationEvents, Queue<Task> taskEvents)
             throws IOException, ParserConfigurationException, FileNotFoundException
@@ -120,4 +120,5 @@ public class FlightScenarioReader {
         ret = instrNode.item(0).getTextContent();
         return ret;
     }
+    */
 }

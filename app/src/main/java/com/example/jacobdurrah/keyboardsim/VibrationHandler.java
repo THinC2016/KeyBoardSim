@@ -2,9 +2,11 @@ package com.example.jacobdurrah.keyboardsim;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.util.Log;
 
 import com.hoho.android.usbserial.driver.UsbSerialDriver;
 import com.hoho.android.usbserial.driver.UsbSerialProber;
@@ -38,7 +40,10 @@ public class VibrationHandler {
     private static final char RUN           = 'r';
     private static final char FREQ          = 'f';
     private static final char AMPL          = 'a';
+    private static final char RAND          = 'z';
     private static final char CARR          = '\r';
+
+    private static final String LOG_TAG     = "VibrationHandler";
 
     private int mAmpl;
     private int mFreq;
@@ -46,22 +51,27 @@ public class VibrationHandler {
     private UsbSerialPort mPort;
     private UsbManager mUSBManager;
     private SerialInputOutputManager mIOManager;
-
+    private Context             ctxt;
     public VibrationHandler(){
         mAmpl = -1;
         mFreq = -1;
+        ctxt = null;
     }
 
     public boolean init(Context ctxt){
+        this.ctxt = ctxt;
         mUSBManager = (UsbManager) ctxt.getSystemService(Context.USB_SERVICE);
         List<UsbSerialDriver> availDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUSBManager);
-        if(availDrivers.isEmpty())
+        if(availDrivers.isEmpty()) {
+            Log.i(LOG_TAG, "No available drivers");
             return false;
-
+        }
         UsbSerialDriver driver = availDrivers.get(0);
         UsbDeviceConnection cnxn = mUSBManager.openDevice(driver.getDevice());
-        if(cnxn == null)
+        if(cnxn == null) {
+            Log.i(LOG_TAG, "Null connection");
             return false;
+        }
 
         mPort = driver.getPorts().get(0);
 
@@ -85,6 +95,7 @@ public class VibrationHandler {
             mFreq = -1;
         } catch (IOException e) {
             success = false;
+            Log.i(LOG_TAG, "IOError in stopVibration");
         }
         return success;
     }
@@ -95,16 +106,31 @@ public class VibrationHandler {
 
         boolean success = true;
 
-        if(mFreq != freq)
-            success = success && setFreq(freq);
-        if(mAmpl != ampl)
-            success = success && setAmpl(ampl);
 
-        String msg = new StringBuilder().append(RUN).append(CARR).toString();
+        success = success && setFreq(freq);
+        success = success && setAmpl(ampl);
+
+        String msg = new StringBuilder().append(RUN).toString();
 
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
         } catch (IOException e) {
+            Log.i(LOG_TAG, "IOError in changeVibration");
+            success = false;
+        }
+
+        return success;
+    }
+
+    public boolean vibrateRandom(){
+        boolean success = true;
+
+        String msg = new StringBuilder().append(RAND).append(RUN).toString();
+
+        try {
+            mPort.write(msg.getBytes(), TIMEOUT);
+        } catch (IOException e) {
+            Log.i(LOG_TAG, "IOError in vibrateRandom");
             success = false;
         }
 
@@ -113,13 +139,13 @@ public class VibrationHandler {
 
     private boolean setAmpl(int ampl){
         boolean success = true;
-        String msg = new StringBuilder().append(AMPL).append(CARR)
-                .append(ampl).append(CARR).toString();
+        String msg = new StringBuilder().append(AMPL).append(ampl).toString();
 
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
             mAmpl = ampl;
         } catch (IOException e){
+            Log.i(LOG_TAG, "IOError in setAmplitude");
             success = false;
         }
         return success;
@@ -127,15 +153,17 @@ public class VibrationHandler {
 
     private boolean setFreq(int freq){
         boolean success = true;
-        String msg = new StringBuilder().append(FREQ).append(CARR)
-                .append(freq).append(CARR).toString();
+        String msg = new StringBuilder().append(FREQ).append(freq).toString();
 
         try {
             mPort.write(msg.getBytes(), TIMEOUT);
             mFreq = freq;
         } catch (IOException e){
+            Log.i(LOG_TAG, "IOError in setFrequency");
             success = false;
         }
         return success;
     }
+
+
 }

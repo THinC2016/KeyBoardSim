@@ -2,6 +2,7 @@ package com.example.jacobdurrah.keyboardsim;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,22 +23,33 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.util.Date;
-
-
+import java.util.Locale;
 
 
 public class FlightPlanActivity extends AppCompatActivity {
     public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
-    public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
+
     public final static String SCENARIO_FILE_PREFIX = "";
+    private String oldText;
+    private TextToSpeech t1;
+
+    public boolean audioFeedBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+        audioFeedBack = getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true);
 
 /*
 
@@ -53,7 +65,8 @@ public class FlightPlanActivity extends AppCompatActivity {
 
         //get username from intent
         Intent intent = getIntent();
-        String userName = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String userName = intent.getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY);
+        String waypoint = intent.getStringExtra(Bundle_Keys.BUNDLE_Waypoint_KEY);
 
         //createFileName
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
@@ -61,29 +74,36 @@ public class FlightPlanActivity extends AppCompatActivity {
         final File file = new File(this.getFilesDir(), fileName);
         FileUtil.writeStringAsFile("Time, Char", file);
 
-
+        TextView instructionView = (TextView) findViewById(R.id.textView);
+        instructionView.setText("Enter Waypoint: "+ waypoint);
 
         EditText editText = (EditText) findViewById(R.id.sim_editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 TextView changed = (TextView) findViewById(R.id.textView);
-                changed.setText(s.toString());
+                //changed.setText(s.toString());
+                oldText = s.toString();
 
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                TextView changed = (TextView) findViewById(R.id.textView);
+                //changed.setText(Long.toString(System.currentTimeMillis()));
+                String newChar = Util.getNewCharacter(oldText, s.toString());
+                //.setText(newChar);
+                String f =  s.toString();
+                oldText = newChar;
+                if(audioFeedBack) {
+                    t1.speak(newChar, TextToSpeech.QUEUE_FLUSH, null, null);
+                }
+                FileUtil.appendStringToFile(Long.toString(System.currentTimeMillis()) + "," + newChar , file);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                TextView changed = (TextView) findViewById(R.id.textView);
-                //changed.setText(Long.toString(System.currentTimeMillis()));
-                String newChar = Util.getNewCharacter(changed.getText().toString(), s.toString());
-                changed.setText(newChar);
-                FileUtil.appendStringToFile(Long.toString(System.currentTimeMillis()) + "," + newChar , file);
+
             }
         });
 
@@ -91,7 +111,10 @@ public class FlightPlanActivity extends AppCompatActivity {
 
     }
 
-
+    public void startIdleActivity(View view) {
+        finish();
+    }
+/*
     private void readInScenario(){
         Bundle b = getIntent().getExtras();
 
@@ -119,5 +142,5 @@ public class FlightPlanActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
     }
-    
+    */
 }
