@@ -15,7 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -29,6 +31,7 @@ public class IdleScreen extends AppCompatActivity {
     public static ArrayList<String> planets;
     private boolean CheckListDone = false;
     private VibrationHandler mVibrationHandler;
+    public static DataLogger dataLogger;
 
     String waypoint;
 
@@ -37,6 +40,7 @@ public class IdleScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_idle_screen);
 
+        dataLogger = new DataLogger(); //logger for data
 
         setup();
         if(MainActivity.Vib_connected_toggle)
@@ -165,16 +169,51 @@ public class IdleScreen extends AppCompatActivity {
             ExperimentComplete.setTextSize(40);
             mainLayout.addView(ExperimentComplete);
 
+
+            //send email button
+            Button emailData = new Button(this);
+
+
+            emailData.setText("Send data to email");
+
+
+            emailData.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    sendEmail(dataLogger.getMEmail());
+                }
+            });
+
+            mainLayout.addView(emailData);
+
+
         }
     }
 
+    public void sendEmail(String mEmail) {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"jdurrah@umch.edu"});
+        email.putExtra(Intent.EXTRA_SUBJECT, MainActivity.participant_ID + ":" + timeStamp);
+        email.putExtra(Intent.EXTRA_TEXT, mEmail);
+        email.setType("text/plain");
+        //startActivity(Intent.createChooser(email, "Choose an Email client :"));
+        try {
+            startActivity(Intent.createChooser(email, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void startCheckListActivity() {
         Intent intent = new Intent(this, CheckListActivity.class);
         intent.putExtra(Bundle_Keys.BUNDLE_Checklist_KEY, currentTask.getmCheckList());
-        intent.putExtra(Bundle_Keys.BUNDLE_Waypoint_KEY,currentTask.getmWaypoint());
+        intent.putExtra(Bundle_Keys.BUNDLE_Waypoint_KEY, currentTask.getmWaypoint());
         intent.putExtra(Bundle_Keys.BUNDLE_Audio_KEY, currentTask.getmAudioFeedBack());
         intent.putExtra(Bundle_Keys.BUNDLE_Visual_KEY, currentTask.getmVisualFeedBack());
-        intent.putExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, currentTask.getmVibration());
+        intent.putExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, currentTask.getCheck_list_way_point_number());
+        intent.putExtra(Bundle_Keys.BUNDLE_Auto_Manu_KEY, currentTask.getmAutopilot());
+        intent.putExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, currentTask.getScenario());
         if(!mTaskQueue.isEmpty()) {
             currentTask = mTaskQueue.remove();
         }
@@ -191,6 +230,8 @@ public class IdleScreen extends AppCompatActivity {
         intent.putExtra(Bundle_Keys.BUNDLE_Audio_KEY, currentTask.getmAudioFeedBack());
         intent.putExtra(Bundle_Keys.BUNDLE_Visual_KEY, currentTask.getmVisualFeedBack());
         intent.putExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, currentTask.getmVibration());
+        intent.putExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, currentTask.getScenario());
+        intent.putExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, currentTask.getCheck_list_way_point_number());
 
         if(!mTaskQueue.isEmpty()) {
             currentTask = mTaskQueue.remove();
@@ -200,7 +241,6 @@ public class IdleScreen extends AppCompatActivity {
         }
         startActivity(intent);
     }
-
 
     public void setup()
     {
@@ -726,7 +766,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     1,     //Check list number
                     true,   //autopilot (true, fals
                     "CL",   //type, checklist or flight plan
-                    5,      //seconds to wait after previous task complete
+                    1,      //seconds to wait after previous task complete
                     false,   //visual feedback
                     true,   //audio feedback
                     true,  //vibration
@@ -740,10 +780,10 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "FLAPS ..................... UP"}));
             mTaskQueue.add(new Task(
                     1,      //scenario
-                    1,     //Check list number
+                    2,     //Check list number
                     true,   //autopilot (true, fals
                     "CL",   //type, checklist or flight plan
-                    5,      //seconds to wait after previous task complete
+                    1,      //seconds to wait after previous task complete
                     true,   //visual feedback
                     false,   //audio feedback
                     true,  //vibration
@@ -756,9 +796,9 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "MASTER WARNING ............ OFF",
                             "FLAPS ..................... UP"}));
 
-            mTaskQueue.add(new Task(1, 1, true, "FP", 10, false, false
+            mTaskQueue.add(new Task(1, 1, true, "FP", 1, false, false
                     , false, 9, 3, "TAMEV"));
-            mTaskQueue.add(new Task(1, 1, true, "FP", 10, false, true
+            mTaskQueue.add(new Task(1, 2, true, "FP", 1, false, true
                     , false, 9, 3, "TAMEV"));
 
 

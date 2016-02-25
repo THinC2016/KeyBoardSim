@@ -10,6 +10,8 @@ public class Bundle_Keys {
     public final static String BUNDLE_Vibrate_KEY = "VibrateValue";
     public final static String BUNDLE_Visual_KEY = "VisualValue";
     public final static String BUNDLE_Audio_KEY = "AudioValue";
+    public final static String BUNDLE_CL_WP_Num_KEY = "CL_WP_Num";
+    public final static String BUNDLE_Auto_Manu_KEY = "Auto_Man";
 
     public final static String BUNDLE_PARTICIPANT_KEY = "PARTICIPANT_ID";
     public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";

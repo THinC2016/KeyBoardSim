@@ -27,9 +27,7 @@ import java.util.Locale;
 
 
 public class FlightPlanActivity extends AppCompatActivity {
-    public final static String BUNDLE_SCENARIO_KEY = "SCENARIO_ID";
 
-    public final static String SCENARIO_FILE_PREFIX = "";
     private String oldText;
     private TextToSpeech t1;
 
@@ -39,6 +37,21 @@ public class FlightPlanActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
+
+        //log start time
+        IdleScreen.dataLogger.addDataPoint(
+                getIntent().getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, 0),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, 0),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, true),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true),
+                Long.toString(System.currentTimeMillis()) ,
+                "start",
+                "",
+                "FP");
+
+
+
 
         t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
@@ -99,6 +112,18 @@ public class FlightPlanActivity extends AppCompatActivity {
                     t1.speak(newChar, TextToSpeech.QUEUE_FLUSH, null, null);
                 }
                 FileUtil.appendStringToFile(Long.toString(System.currentTimeMillis()) + "," + newChar , file);
+
+                //log clicked button
+                IdleScreen.dataLogger.addDataPoint(
+                        getIntent().getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY),
+                        getIntent().getIntExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, 0),
+                        getIntent().getIntExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, 0),
+                        getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, true),
+                        getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true),
+                        Long.toString(System.currentTimeMillis()),
+                        "BP",
+                        newChar,
+                        "FP");
             }
 
             @Override
@@ -112,6 +137,21 @@ public class FlightPlanActivity extends AppCompatActivity {
     }
 
     public void startIdleActivity(View view) {
+
+        TextView textView = (TextView) findViewById(R.id.textView);
+        //log completed fp task
+        IdleScreen.dataLogger.addDataPoint(
+                getIntent().getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, 0),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, 0),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, true),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true),
+                Long.toString(System.currentTimeMillis()),
+                "End_FP",
+                textView.getText().toString(),
+                "FP");
+
+
         finish();
     }
 /*

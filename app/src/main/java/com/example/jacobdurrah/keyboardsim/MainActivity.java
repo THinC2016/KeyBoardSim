@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static boolean Vib_connected_toggle = true;
 
+    public static String participant_ID;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    //TODO delete this ish
+
+
     public void startFlightplanActivity(View view) {
         Intent intent = new Intent(this, FlightPlanActivity.class);
         EditText editText = (EditText) findViewById(R.id.participant_id);
@@ -129,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.participant_id);
         String participantId = editText.getText().toString();
         intent.putExtra(BUNDLE_PARTICIPANT_KEY, participantId);
+        participant_ID = participantId;
         intent.putExtra(Bundle_Keys.BUNDLE_Vibration_Status_KEY, Vib_connected_toggle);
         startActivity(intent);
     }

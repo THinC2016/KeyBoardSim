@@ -45,6 +45,19 @@ public class CheckListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_list);
 
+        //log start time
+        IdleScreen.dataLogger.addDataPoint(
+                getIntent().getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, 0),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, 0),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, true),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true),
+                Long.toString(System.currentTimeMillis()),
+                "start",
+                "",
+                "CL");
+
+
         clickedItems = new HashMap();
 
         //Information needed
@@ -77,11 +90,28 @@ public class CheckListActivity extends AppCompatActivity {
         });
     }
     public void startIdleActivity(View view) {
-       finish();
+        ArrayList<String> list = new ArrayList<String>(getIntent().getStringArrayListExtra(Bundle_Keys.BUNDLE_Checklist_KEY));
+        int numUnchecked = list.size() - clickedItems.size();
+
+        //log start time
+        IdleScreen.dataLogger.addDataPoint(
+                getIntent().getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, 0),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, 0),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, true),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true),
+                Long.toString(System.currentTimeMillis()),
+                "End_CL",
+                String.valueOf(numUnchecked),//number of unchecked items
+                "CL");
+
+        finish();
     }
 
     public void readText(View view)
     {
+        String clicked = "click";
+
         CheckedTextView textView = (CheckedTextView) view;
         if(visualFeedBack) {
             textView.setBackgroundColor(Color.parseColor("#008000")); // custom
@@ -109,7 +139,7 @@ public class CheckListActivity extends AppCompatActivity {
             if(audioFeedBack) {
                 t1.speak(speech + " " + "Unchecked", TextToSpeech.QUEUE_FLUSH, null, null);
             }
-
+            clicked = "unclicked";
         }
         else
         {
@@ -117,7 +147,21 @@ public class CheckListActivity extends AppCompatActivity {
                 t1.speak(speech + " " + "checked", TextToSpeech.QUEUE_FLUSH, null, null);
             }
             clickedItems.put(speech, 1);
+
         }
+
+
+        //log start time
+        IdleScreen.dataLogger.addDataPoint(
+                getIntent().getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_SCENARIO_KEY, 0),
+                getIntent().getIntExtra(Bundle_Keys.BUNDLE_CL_WP_Num_KEY, 0),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Vibrate_KEY, true),
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Audio_KEY, true),
+                Long.toString(System.currentTimeMillis()),
+                clicked,
+                speech,//checklist value
+                "CL");
     }
 
 /*
