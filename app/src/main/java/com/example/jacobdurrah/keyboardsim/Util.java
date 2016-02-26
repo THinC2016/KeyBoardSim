@@ -9,21 +9,21 @@ public class Util {
     {
         boolean difference = false;
         String addedChar = "";
-        if(oldString.compareTo(newString)<0)
-        {
+       // if(oldString.compareTo(newString)<0)
+      //  {
             if(oldString.length() == 0)
             {
                 addedChar = newString;
             }
             else if(oldString.length() > newString.length())
             {
-                addedChar = "\b";
+                addedChar = "[delete]";
             }
             else
             {
                 addedChar = newString.substring(newString.length()-1);
             }
-        }
+      //  }
         return addedChar;
     }
 }

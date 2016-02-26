@@ -191,11 +191,12 @@ public class IdleScreen extends AppCompatActivity {
 
     public void sendEmail(String mEmail) {
 
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
 
         Intent email = new Intent(Intent.ACTION_SEND);
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"jdurrah@umch.edu"});
-        email.putExtra(Intent.EXTRA_SUBJECT, MainActivity.participant_ID + ":" + timeStamp);
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{"wanyz@umich.edu"});
+        email.putExtra(Intent.EXTRA_SUBJECT,
+                " FAA Touchscreen Data (" + timeStamp + ")" + "(" +MainActivity.participant_ID + ")");
         email.putExtra(Intent.EXTRA_TEXT, mEmail);
         email.setType("text/plain");
         //startActivity(Intent.createChooser(email, "Choose an Email client :"));
@@ -258,7 +259,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "STALL LIGHT ............... OFF",
@@ -267,10 +268,10 @@ public class IdleScreen extends AppCompatActivity {
                             "FLAPS ..................... UP"}));
 
             mTaskQueue.add(new Task(1, 1, true, "FP", 90, false, false
-                    , false, 9, 3, "TAMEV"));
+                    , false, 9, 6, "TAMEV"));
 
             mTaskQueue.add(new Task(1, 2, true, "FP", 90, false, false
-                    , true, 9, 3, "BNEOG"));
+                    , true, 9, 6, "BNEOG"));
 
             mTaskQueue.add(new Task(
                     1,      //scenario
@@ -282,7 +283,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "HDG SEL MODE .............. ON",
                             "AP DISCON ................. OFF",
@@ -300,7 +301,7 @@ public class IdleScreen extends AppCompatActivity {
                     true,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "LOW FUEL LIGHT ............ OFF",
@@ -309,10 +310,10 @@ public class IdleScreen extends AppCompatActivity {
                             "SPEED BRAKES .............. RETRACTED"}));
 
             mTaskQueue.add(new Task(1, 3, true, "FP", 90, false, true
-                    , false, 9, 3, "PAVQK"));
+                    , false, 9, 6, "PAVQK"));
 
             mTaskQueue.add(new Task(1, 4, true, "FP", 90, false, true
-                    , true, 9, 3, "WUPSK"));
+                    , true, 9, 6, "WUPSK"));
 
             mTaskQueue.add(new Task(
                     1,      //scenario
@@ -324,7 +325,7 @@ public class IdleScreen extends AppCompatActivity {
                     true,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALTIMETER ................. STD",
                             "STALL LIGHT ............... OFF",
@@ -342,7 +343,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "TERRAIN LIGHT ............. OFF",
@@ -351,10 +352,10 @@ public class IdleScreen extends AppCompatActivity {
                             "THRUST REVERSE ............ DISENGAGED"}));
 
             mTaskQueue.add(new Task(1, 5, true, "FP", 90, true, false
-                    , false, 9, 3, "TEOZU"));
+                    , false, 9, 6, "TEOZU"));
 
             mTaskQueue.add(new Task(1, 6, true, "FP", 90, true, false
-                    , true, 9, 3, "LYZOC"));
+                    , true, 9, 6, "LYZOC"));
 
             mTaskQueue.add(new Task(
                     1,      //scenario
@@ -366,7 +367,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "HDG SEL MODE .............. ON",
                             "PITOT HEAT ................ OFF",
@@ -384,7 +385,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "AP DISCON ................. OFF",
@@ -393,10 +394,10 @@ public class IdleScreen extends AppCompatActivity {
                             "FLAPS ..................... UP"}));
 
             mTaskQueue.add(new Task(1, 7, false, "FP", 90, true, false
-                    , false, 9, 3, "DIFEO"));
+                    , false, 9, 6, "DIFEO"));
 
             mTaskQueue.add(new Task(1, 8, false, "FP", 90, true, false
-                    , true, 9, 3, "KENJS"));
+                    , true, 9, 6, "KENJS"));
 
             mTaskQueue.add(new Task(
                     1,      //scenario
@@ -408,7 +409,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALTIMETER ................. STD",
                             "LOW FUEL LIGHT ............ OFF",
@@ -426,7 +427,7 @@ public class IdleScreen extends AppCompatActivity {
                     true,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "STALL LIGHT ............... OFF", "TERRAIN LIGHT ............. OFF",
@@ -434,10 +435,10 @@ public class IdleScreen extends AppCompatActivity {
                             "THRUST REVERSE ............ DISENGAGED"}));
 
             mTaskQueue.add(new Task(1, 9, false, "FP", 90, false, true
-                    , false, 9, 3, "WOAGM"));
+                    , false, 9, 6, "WOAGM"));
 
             mTaskQueue.add(new Task(1, 10, false, "FP", 90, false, true
-                    , true, 9, 3, "ROZIT"));
+                    , true, 9, 6, "ROZIT"));
 
             mTaskQueue.add(new Task(
                     1,      //scenario
@@ -449,7 +450,7 @@ public class IdleScreen extends AppCompatActivity {
                     true,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "HDG SEL MODE .............. ON",
                             "AP DISCON ................. OFF",
@@ -467,7 +468,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "LOW FUEL LIGHT ............ OFF",
@@ -476,10 +477,10 @@ public class IdleScreen extends AppCompatActivity {
                             "SPEED BRAKES .............. RETRACTED"}));
 
             mTaskQueue.add(new Task(1, 11, false, "FP", 90, false, false
-                    , false, 9, 3, "EYMAO"));
+                    , false, 9, 6, "EYMAO"));
 
             mTaskQueue.add(new Task(1, 12, false, "FP", 90, false, false
-                    , true, 9, 3, "LFQIX"));
+                    , true, 9, 6, "LFQIX"));
 
             mTaskQueue.add(new Task(
                     1,      //scenario
@@ -491,7 +492,7 @@ public class IdleScreen extends AppCompatActivity {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "ALTIMETER ................. STD",
@@ -517,7 +518,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "STALL LIGHT ............... OFF",
@@ -526,10 +527,10 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "FLAPS ..................... UP"}));
 
             mTaskQueue.add(new Task(2, 1, false, "FP", 90, false, false
-                    , true, 9, 3, "TAMEV"));
+                    , true, 9, 6, "TAMEV"));
 
             mTaskQueue.add(new Task(1, 2, false, "FP", 90, false, false
-                    , false, 9, 3, "BNEOG"));
+                    , false, 9, 6, "BNEOG"));
 
             mTaskQueue.add(new Task(
                     2,      //scenario
@@ -541,7 +542,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "HDG SEL MODE .............. ON",
                             "AP DISCON ................. OFF",
@@ -559,7 +560,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     true,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "LOW FUEL LIGHT ............ OFF",
@@ -568,10 +569,10 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "SPEED BRAKES .............. RETRACTED"}));
 
             mTaskQueue.add(new Task(2, 3, false, "FP", 90, false, true
-                    , true, 9, 3, "PAVQK"));
+                    , true, 9, 6, "PAVQK"));
 
             mTaskQueue.add(new Task(1, 4, false, "FP", 90, false, true
-                    , false, 9, 3, "WUPSK"));
+                    , false, 9, 6, "WUPSK"));
 
             mTaskQueue.add(new Task(
                     2,      //scenario
@@ -583,7 +584,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     true,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALTIMETER ................. STD",
                             "STALL LIGHT ............... OFF",
@@ -601,7 +602,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "TERRAIN LIGHT ............. OFF",
@@ -610,10 +611,10 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "THRUST REVERSE ............ DISENGAGED"}));
 
             mTaskQueue.add(new Task(2, 5, false, "FP", 90, true, false
-                    , true, 9, 3, "TEOZU"));
+                    , true, 9, 6, "TEOZU"));
 
             mTaskQueue.add(new Task(2, 6, false, "FP", 90, true, false
-                    , false, 9, 3, "LYZOC"));
+                    , false, 9, 6, "LYZOC"));
 
             mTaskQueue.add(new Task(
                     2,      //scenario
@@ -625,7 +626,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "HDG SEL MODE .............. ON",
                             "PITOT HEAT ................ OFF",
@@ -643,7 +644,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "AP DISCON ................. OFF",
@@ -652,10 +653,10 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "FLAPS ..................... UP"}));
 
             mTaskQueue.add(new Task(2, 7, true, "FP", 90, true, false
-                    , true, 9, 3, "DIFEO"));
+                    , true, 9, 6, "DIFEO"));
 
             mTaskQueue.add(new Task(2, 8, true, "FP", 90, true, false
-                    , false, 9, 3, "KENJS"));
+                    , false, 9, 6, "KENJS"));
 
             mTaskQueue.add(new Task(
                     2,      //scenario
@@ -667,7 +668,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALTIMETER ................. STD",
                             "LOW FUEL LIGHT ............ OFF",
@@ -685,7 +686,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     true,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "STALL LIGHT ............... OFF", "TERRAIN LIGHT ............. OFF",
@@ -693,10 +694,10 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "THRUST REVERSE ............ DISENGAGED"}));
 
             mTaskQueue.add(new Task(2, 9, true, "FP", 90, false, true
-                    , true, 9, 3, "WOAGM"));
+                    , true, 9, 6, "WOAGM"));
 
             mTaskQueue.add(new Task(2, 10, true, "FP", 90, false, true
-                    , false, 9, 3, "ROZIT"));
+                    , false, 9, 6, "ROZIT"));
 
             mTaskQueue.add(new Task(
                     2,      //scenario
@@ -708,7 +709,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     true,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "HDG SEL MODE .............. ON",
                             "AP DISCON ................. OFF",
@@ -726,7 +727,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     false,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "LOW FUEL LIGHT ............ OFF",
@@ -735,10 +736,10 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "SPEED BRAKES .............. RETRACTED"}));
 
             mTaskQueue.add(new Task(2, 11, false, "FP", 90, true, false
-                    , true, 9, 3, "EYMAO"));
+                    , true, 9, 6, "EYMAO"));
 
             mTaskQueue.add(new Task(2, 12, false, "FP", 90, true, false
-                    , false, 9, 3, "LFQIX"));
+                    , false, 9, 6, "LFQIX"));
 
             mTaskQueue.add(new Task(
                     2,      //scenario
@@ -750,7 +751,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "ALT MODE .................. ON",
                             "ALTIMETER ................. STD",
@@ -771,7 +772,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     true,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "STALL LIGHT ............... OFF",
@@ -788,7 +789,7 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                     false,   //audio feedback
                     true,  //vibration
                     9,      //vibration amp
-                    3,      //vibration freq
+                    6,  //vibration freq
                     new String[]{   //checklist
                             "SPD MODE .................. ON",
                             "STALL LIGHT ............... OFF",
@@ -797,9 +798,9 @@ else if(ScenarioSelection.selectedScenario.equals("Scenario 2")) {
                             "FLAPS ..................... UP"}));
 
             mTaskQueue.add(new Task(1, 1, true, "FP", 1, false, false
-                    , false, 9, 3, "TAMEV"));
+                    , false, 9, 6, "TAMEV"));
             mTaskQueue.add(new Task(1, 2, true, "FP", 1, false, true
-                    , false, 9, 3, "TAMEV"));
+                    , false, 9, 6, "TAMEV"));
 
 
         }

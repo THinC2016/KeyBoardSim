@@ -55,7 +55,8 @@ public class CheckListActivity extends AppCompatActivity {
                 Long.toString(System.currentTimeMillis()),
                 "start",
                 "",
-                "CL");
+                "CL",
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Auto_Manu_KEY, true));
 
 
         clickedItems = new HashMap();
@@ -103,7 +104,8 @@ public class CheckListActivity extends AppCompatActivity {
                 Long.toString(System.currentTimeMillis()),
                 "End_CL",
                 String.valueOf(numUnchecked),//number of unchecked items
-                "CL");
+                "CL",
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Auto_Manu_KEY, true));
 
         finish();
     }
@@ -137,14 +139,14 @@ public class CheckListActivity extends AppCompatActivity {
                 ((CheckedTextView) view).setChecked(false);
             }
             if(audioFeedBack) {
-                t1.speak(speech + " " + "Unchecked", TextToSpeech.QUEUE_FLUSH, null, null);
+                t1.speak(speech + ". " + "Unchecked", TextToSpeech.QUEUE_FLUSH, null, null);
             }
             clicked = "unclicked";
         }
         else
         {
             if(audioFeedBack) {
-                t1.speak(speech + " " + "checked", TextToSpeech.QUEUE_FLUSH, null, null);
+                t1.speak(speech + ". " + "checked", TextToSpeech.QUEUE_FLUSH, null, null);
             }
             clickedItems.put(speech, 1);
 
@@ -161,7 +163,8 @@ public class CheckListActivity extends AppCompatActivity {
                 Long.toString(System.currentTimeMillis()),
                 clicked,
                 speech,//checklist value
-                "CL");
+                "CL",
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Auto_Manu_KEY, true));
     }
 
 /*

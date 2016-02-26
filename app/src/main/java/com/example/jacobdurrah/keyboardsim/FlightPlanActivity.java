@@ -48,7 +48,9 @@ public class FlightPlanActivity extends AppCompatActivity {
                 Long.toString(System.currentTimeMillis()) ,
                 "start",
                 "",
-                "FP");
+                "FP",
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Auto_Manu_KEY, true)
+        );
 
 
 
@@ -109,7 +111,13 @@ public class FlightPlanActivity extends AppCompatActivity {
                 String f =  s.toString();
                 oldText = newChar;
                 if(audioFeedBack) {
-                    t1.speak(newChar, TextToSpeech.QUEUE_FLUSH, null, null);
+                    if(newChar.equals("[delete]"))
+                    {
+                        t1.speak("Delete", TextToSpeech.QUEUE_FLUSH, null, null);
+                    }
+                    else {
+                        t1.speak(newChar, TextToSpeech.QUEUE_FLUSH, null, null);
+                    }
                 }
                 FileUtil.appendStringToFile(Long.toString(System.currentTimeMillis()) + "," + newChar , file);
 
@@ -123,7 +131,8 @@ public class FlightPlanActivity extends AppCompatActivity {
                         Long.toString(System.currentTimeMillis()),
                         "BP",
                         newChar,
-                        "FP");
+                        "FP",
+                        getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Auto_Manu_KEY, true));
             }
 
             @Override
@@ -138,7 +147,7 @@ public class FlightPlanActivity extends AppCompatActivity {
 
     public void startIdleActivity(View view) {
 
-        TextView textView = (TextView) findViewById(R.id.textView);
+        EditText textView = (EditText) findViewById(R.id.sim_editText);
         //log completed fp task
         IdleScreen.dataLogger.addDataPoint(
                 getIntent().getStringExtra(Bundle_Keys.BUNDLE_PARTICIPANT_KEY),
@@ -149,7 +158,8 @@ public class FlightPlanActivity extends AppCompatActivity {
                 Long.toString(System.currentTimeMillis()),
                 "End_FP",
                 textView.getText().toString(),
-                "FP");
+                "FP",
+                getIntent().getBooleanExtra(Bundle_Keys.BUNDLE_Auto_Manu_KEY, true));
 
 
         finish();
