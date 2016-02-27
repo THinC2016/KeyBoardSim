@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    //TODO delete this ish
+
 
 
     public void startFlightplanActivity(View view) {
