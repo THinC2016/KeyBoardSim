@@ -149,7 +149,7 @@ public class IdleScreen extends AppCompatActivity {
         super.onRestart();  // Always call the superclass method first
 
         //stop vibration
-        if(MainActivity.Vib_connected_toggle & currentTask.getmVibration())
+        if(MainActivity.Vib_connected_toggle )
             mVibrationHandler.stopVibration();
         // Activity being restarted from stopped state
         countDownTimer.cancel();
